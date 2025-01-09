@@ -1,0 +1,32 @@
+# configs/trainer/base.yaml
+batch_size: 32
+epochs: 5
+early_stopping_patience: 10
+gradient_clip_val: 1.0
+save_checkpoint: true
+checkpoint_dir: "checkpoints"
+save_best: true
+save_last: true
+
+# Optimizer settings
+optimizer:
+  name: "Adam"
+  params:
+    lr: 0.001
+    weight_decay: 0.0001
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+# Scheduler settings
+scheduler:
+  name: "ReduceLROnPlateau"
+  params:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6
+    verbose: true
+
+# Loss settings
+loss: "MSELoss"
+loss_params: {}

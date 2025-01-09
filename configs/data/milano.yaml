@@ -1,0 +1,6 @@
+# configs/data/milano.yaml
+# Milano dataset은 작어서 input len = 36 / 약 6시간 -> input에 따른 시간변화?
+data_path: "dataset/"
+file_name: "Milano.csv"
+freq: "10min"
+base_features: ["smsin", "smsout", "callin", "callout", "OT"]  # 기본 feature 이름들

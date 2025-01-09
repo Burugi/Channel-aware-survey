@@ -1,0 +1,34 @@
+# configs/model/transformer.yaml
+model_type: "transformer"
+
+# Model architecture
+d_model: 128
+nhead: 8
+num_encoder_layers: 4
+num_decoder_layers: 4
+dim_feedforward: 512
+dropout: 0.1
+channel_independence: false  # Channel independence 모드 설정
+
+# Optimizer settings
+optimizer:
+  name: "Adam"
+  params:
+    lr: 0.001
+    weight_decay: 0.0001
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+# Scheduler settings
+scheduler:
+  name: "ReduceLROnPlateau"
+  params:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6
+    verbose: true
+
+# Loss settings
+loss: "MSELoss"
+loss_params: {}

@@ -1,0 +1,17 @@
+numpy
+pandas
+scikit-learn
+scipy
+statsmodels
+tqdm
+matplotlib
+einops
+PyYAML
+optuna
+seaborn
+path
+# pip install torch --index-url https://download.pytorch.org/whl/cu121
+# 위 코드를 설치하면 accelerate가 설치가 안되는데 따로 설치해야함
+# python 3.8
+# pip install ray[default] gpu에 맞는 ray 
+# pip install "ray[tune]" -> ray 의존성 내용 설치

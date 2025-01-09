@@ -1,0 +1,25 @@
+# configs/hyperopt/transformer.yaml
+
+model_params:
+  d_model: [32, 64, 128, 256]
+  nhead: [4, 8]
+  num_encoder_layers: [2, 3, 4, 6]
+  num_decoder_layers: [2, 3, 4, 6]
+  dim_feedforward: [128, 256, 512, 1024]
+  dropout: [0.1, 0.2, 0.3]
+
+training_params:
+  batch_size: [16, 32, 64, 128]
+  optimizer: ['Adam', 'AdamW']
+  learning_rate: [0.0001, 0.0005, 0.001, 0.005]
+  weight_decay: [0.0001, 0.001, 0.01]
+
+# Loss 및 Scheduler는 고정
+loss: "MSELoss"
+scheduler:
+  name: "ReduceLROnPlateau"
+  params:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6

@@ -1,0 +1,4 @@
+# configs/model/dlinear.yaml
+model_type: "dlinear"
+kernel_size: 25
+individual: true

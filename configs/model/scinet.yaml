@@ -1,0 +1,9 @@
+# configs/model/scinet.yaml
+model_type: "scinet"
+hidden_size: 1
+num_levels: 3
+kernel: 5
+dropout: 0.5
+groups: 1
+positional_encoding: true
+RIN: false  # Reversible Instance Normalization

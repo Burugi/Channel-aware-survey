@@ -1,0 +1,35 @@
+# configs/model/adarnn.yaml
+model_type: "adarnn"
+
+# Model Architecture
+hidden_sizes: [64, 64]
+use_bottleneck: false
+bottleneck_width: 256
+model_type: "AdaRNN"  # 'AdaRNN' or 'Boosting'
+trans_loss: "mmd"     # 'mmd', 'coral', 'cosine', etc.
+
+# Training
+dropout: 0.1
+
+# Optimizer
+optimizer:
+  name: "Adam"
+  params:
+    lr: 0.001
+    weight_decay: 0.0001
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+# Scheduler
+scheduler:
+  name: "ReduceLROnPlateau"
+  params:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6
+    verbose: true
+
+# Loss
+loss: "MSELoss"
+loss_params: {}

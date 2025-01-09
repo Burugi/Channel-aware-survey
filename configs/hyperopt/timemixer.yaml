@@ -1,0 +1,16 @@
+# configs/hyperopt/timemixer.yaml
+model_params:
+  d_model: [256, 512, 768]
+  d_ff: [1024, 2048, 4096]
+  e_layers: [2, 3, 4]
+  down_sampling_layers: [1, 2, 3]
+  down_sampling_window: [2, 4]
+  moving_avg: [13, 25, 37]
+  channel_independence: [true, false]
+  dropout: [0.1, 0.2, 0.3]
+
+training_params:
+  batch_size: [16, 32, 64, 128]
+  learning_rate: [0.0001, 0.0005, 0.001, 0.005]
+  optimizer: ['Adam', 'AdamW', 'RMSprop']
+  weight_decay: [0.0001, 0.0005, 0.001, 0.005]

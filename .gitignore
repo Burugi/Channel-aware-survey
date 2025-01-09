@@ -1,0 +1,10 @@
+checkpoints/
+dataset/
+logs/
+outputs/
+
+# 모든 .pyc 파일 무시
+*.pyc
+
+# __pycache__ 폴더 무시
+__pycache__/

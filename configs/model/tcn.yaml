@@ -1,0 +1,22 @@
+# configs/model/tcn.yaml
+model_type: "tcn"
+num_channels: [32, 64, 128]
+kernel_size: 3
+dropout: 0.2
+optimizer:
+  name: "Adam"
+  params:
+    lr: 0.001
+    weight_decay: 0.0001
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+scheduler:
+  name: "ReduceLROnPlateau"
+  params:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6
+    verbose: true
+loss: "MSELoss"
+loss_params: {}

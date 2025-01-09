@@ -1,0 +1,12 @@
+# configs/hyperopt/rnn.yaml
+model_params:
+  hidden_size: [32, 64, 128, 256]
+  num_layers: [1, 2, 3, 4]
+  dropout: [0.1, 0.2, 0.3, 0.4, 0.5]
+  nonlinearity: ["tanh", "relu"]
+
+training_params:
+  batch_size: [16, 32, 64, 128]
+  learning_rate: [0.0001, 0.0005, 0.001, 0.005]
+  optimizer: ['Adam', 'AdamW', 'RMSprop']
+  weight_decay: [0.0001, 0.0005, 0.001]

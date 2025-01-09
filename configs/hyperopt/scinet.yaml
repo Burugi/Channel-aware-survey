@@ -1,0 +1,15 @@
+# configs/hyperopt/scinet.yaml
+model_params:
+  hidden_size: [1, 2, 4]
+  num_levels: [2, 3, 4]
+  kernel: [3, 5, 7]
+  dropout: [0.1, 0.3, 0.5]
+  groups: [1, 2]
+  positional_encoding: [true, false]
+  RIN: [true, false]
+
+training_params:
+  batch_size: [16, 32, 64, 128]
+  learning_rate: [0.0001, 0.0005, 0.001, 0.005, 0.01]
+  optimizer: ['Adam', 'AdamW', 'RMSprop']
+  weight_decay: [0.0001, 0.0005, 0.001, 0.005]
