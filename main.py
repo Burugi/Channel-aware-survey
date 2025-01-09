@@ -27,6 +27,7 @@ def get_model_class(model_name: str):
     from models.implementations.dlinear import DLinearModel
     from models.implementations.scinet import SCINetModel
     from models.implementations.timemixer import TimeMixerModel
+    from models.implementations.timesnet import TimesNetModel
     models = {
         'lstm': LSTMModel,
         'transformer': TransformerModel,
@@ -38,7 +39,8 @@ def get_model_class(model_name: str):
         'segrnn': SegRNNModel,  # 추가
         'dlinear': DLinearModel,
         'scinet': SCINetModel,
-        'timemixer': TimeMixerModel
+        'timemixer': TimeMixerModel,
+        'timesnet': TimesNetModel
     }
     return models.get(model_name.lower())
 

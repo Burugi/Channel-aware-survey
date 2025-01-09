@@ -19,10 +19,11 @@ class TimeMixerModel(BaseTimeSeriesModel):
         self.freq = self.config.get('freq', 'h')
         self.dropout = self.config.get('dropout', 0.1)
         self.down_sampling_method = self.config.get('down_sampling_method', 'avg')
+        self.channel_independence = self.config.get('channel_independence', False)
         
-        # Determine input/output dimensions
-        self.enc_in = 1 if self.num_features == 1 else self.base_features
-        self.dec_out = 1 if self.num_features == 1 else self.base_features
+        # Channel independence에 따른 입출력 차원 설정
+        self.enc_in = 1 if self.channel_independence else self.num_features
+        self.dec_out = 1 if self.channel_independence else self.base_features
         
         # Embedding
         self.enc_embedding = DataEmbedding_wo_pos(
@@ -74,17 +75,13 @@ class TimeMixerModel(BaseTimeSeriesModel):
             ) for i in range(self.down_sampling_layers + 1)
         ])
 
-    def _generate_time_features(self, x):
-        """시간 특성 생성"""
-        batch_size, seq_len, _ = x.shape
-        # 기본적인 시간 특성 (hour, dayofweek, month, dayofmonth)으로 구성
-        time_features = torch.zeros((batch_size, seq_len, 4), device=x.device)
-        return time_features
 
     def _process_inputs(self, x):
         """Multi-scale input processing"""
-        # Select features for processing
-        if self.num_features > 1:
+        if self.channel_independence:
+            # 이미 reshape된 상태로 입력됨
+            pass
+        elif self.num_features > 1:
             x = x[:, :, :self.base_features]
             
         if self.down_sampling_method == 'avg':
@@ -103,27 +100,23 @@ class TimeMixerModel(BaseTimeSeriesModel):
             x_list.append(x_current.permute(0, 2, 1))
             
         return x_list
-
-    def _out_projection(self, dec_out, i, out_res):
-        """출력 투영"""
-        # Project temporal dimension first
-        dec_out = self.predict_layers[i](dec_out.permute(0, 2, 1)).permute(0, 2, 1)
-        
-        # Project feature dimension
-        dec_out = self.projection(dec_out)
-        
-        # Process residual connection
-        out_res = out_res.permute(0, 2, 1)
-        out_res = self.out_res_layers[i](out_res)
-        out_res = self.regression_layers[i](out_res).permute(0, 2, 1)
-        
-        return dec_out + out_res
+    def _generate_time_features(self, x):
+        """시간 특성 생성"""
+        batch_size = x.size(0)  # expanded batch size 사용
+        seq_len = x.size(1)
+        time_features = torch.zeros((batch_size, seq_len, 4), device=x.device)
+        return time_features
 
     def forward(self, x):
         """순전파"""
-        batch_size = x.size(0)
+        original_batch_size = x.size(0)
         
-        # Generate time features for embedding
+        if self.channel_independence:
+            # Reshape for channel independence
+            x = x.permute(0, 2, 1).contiguous()  # (batch_size, num_features, seq_len)
+            x = x.reshape(-1, x.size(-1), 1)     # (batch_size * num_features, seq_len, 1)
+        
+        # Generate time features with correct batch size
         time_features = self._generate_time_features(x)
         
         # Multi-scale processing
@@ -134,20 +127,21 @@ class TimeMixerModel(BaseTimeSeriesModel):
         for i, x_scale in enumerate(x_scales):
             x_norm = self.normalize_layers[i](x_scale, 'norm')
             x_list.append(x_norm)
-            
-        # Get time features for each scale
+        
+        # Generate time features for each scale
         time_features_list = []
         for i in range(len(x_list)):
             if i == 0:
                 time_features_list.append(time_features)
             else:
-                # Downsample time features for each scale
-                downsampled_features = time_features[:, ::self.down_sampling_window**i, :]
-                time_features_list.append(downsampled_features)
+                # Downsample time features 
+                time_features_scale = time_features[:, ::self.down_sampling_window**i, :]
+                time_features_list.append(time_features_scale)
         
-        # Embedding
+        # Embedding with synchronized batch sizes
         enc_out_list = []
         for x_scale, t_scale in zip(x_list, time_features_list):
+            # Ensure x_scale and t_scale have the same batch size
             enc_out = self.enc_embedding(x_scale, t_scale)
             enc_out_list.append(enc_out)
         
@@ -165,4 +159,48 @@ class TimeMixerModel(BaseTimeSeriesModel):
         dec_out = torch.stack(dec_out_list, dim=-1).sum(-1)
         dec_out = self.normalize_layers[0](dec_out, 'denorm')
         
+        if self.channel_independence:
+            # Reshape back to original dimensions
+            dec_out = dec_out.reshape(original_batch_size, self.base_features, self.pred_len, -1)
+            dec_out = dec_out.squeeze(-1).permute(0, 2, 1)  # (batch_size, pred_len, num_features)
+        
         return dec_out
+
+    def training_step(self, batch):
+        """단일 학습 스텝"""
+        x, y = batch
+        x = x.to(self.device).float()
+        y = y.to(self.device).float()
+        
+        # 순전파
+        y_pred = self(x)
+        
+        if self.channel_independence:
+            # Channel independence mode에서는 각 feature별 loss를 평균
+            loss = 0
+            feature_losses = {}
+            for i in range(self.base_features):
+                feature_loss = self.loss_fn(y_pred[..., i], y[..., i])
+                loss += feature_loss
+                feature_losses[f'feature_{i}'] = feature_loss.item()
+            loss = loss / self.base_features
+            return {'loss': loss.item(), 'feature_losses': feature_losses}
+        else:
+            # Channel dependence mode에서는 전체 feature에 대한 단일 loss
+            loss = self.loss_fn(y_pred, y)
+            return {'loss': loss.item()}
+
+    def _out_projection(self, dec_out, i, out_res):
+        """출력 투영"""
+        # Project temporal dimension first
+        dec_out = self.predict_layers[i](dec_out.permute(0, 2, 1)).permute(0, 2, 1)
+        
+        # Project feature dimension
+        dec_out = self.projection(dec_out)
+        
+        # Process residual connection
+        out_res = out_res.permute(0, 2, 1)
+        out_res = self.out_res_layers[i](out_res)
+        out_res = self.regression_layers[i](out_res).permute(0, 2, 1)
+        
+        return dec_out + out_res

@@ -1,0 +1,25 @@
+# configs/hyperopt/timesnet.yaml
+
+model_params:
+  d_model: [64, 128, 256, 512]
+  d_ff: [256, 512, 1024, 2048]
+  e_layers: [1, 2, 3, 4]
+  top_k: [3, 5, 7]
+  num_kernels: [4, 6, 8]
+  dropout: [0.1, 0.2, 0.3]
+
+training_params:
+  batch_size: [16, 32, 64, 128]
+  optimizer: ['Adam', 'AdamW']
+  learning_rate: [0.0001, 0.0005, 0.001, 0.005]
+  weight_decay: [0.0001, 0.001, 0.01]
+
+# Fixed parameters
+loss: "MSELoss"
+scheduler:
+  name: "ReduceLROnPlateau"
+  params:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6

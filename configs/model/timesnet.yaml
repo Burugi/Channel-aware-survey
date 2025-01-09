@@ -1,0 +1,42 @@
+# configs/model/timesnet.yaml
+
+# Model type
+model_type: "timesnet"
+
+# Model architecture
+d_model: 512        # dimension of the model
+d_ff: 2048         # dimension of feed-forward network
+e_layers: 2        # number of encoder layers
+top_k: 5           # number of top frequencies to use
+num_kernels: 6     # number of kernels in Inception blocks
+channel_independence: false  # channel independence mode
+
+# Embedding settings
+embed: "timeF"     # type of embedding
+freq: "h"          # frequency of time features
+
+# Training settings
+dropout: 0.1       # dropout rate
+
+# Optimizer settings
+optimizer:
+  name: "Adam"
+  params:
+    lr: 0.0001
+    weight_decay: 0.0001
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+# Scheduler settings
+scheduler:
+  name: "ReduceLROnPlateau"
+  params:
+    mode: "min"
+    factor: 0.5
+    patience: 10
+    min_lr: 1.0e-6
+    verbose: true
+
+# Loss settings
+loss: "MSELoss"
+loss_params: {}
