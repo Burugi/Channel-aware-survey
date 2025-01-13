@@ -1,0 +1,3 @@
+2025/01/13
+(CD_survey) work@main1[Hyunwoong_Jiyun]:~/.default/hyunwoong/Channel-aware-survey$ nohup python main.py --dataset milano --model tcn --optimize --n_trials 20 > my_log.log 2>&1 &
+[1] 3069406

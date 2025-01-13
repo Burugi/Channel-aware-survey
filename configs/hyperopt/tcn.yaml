@@ -1,11 +1,14 @@
 # configs/hyperopt/tcn.yaml
+# num_channels: [[32, 64, 128], [64, 128, 256], [32, 64, 128, 256]]
 model_params:
-  num_channels: [[32, 64, 128], [64, 128, 256], [32, 64, 128, 256]]
+  num_channels: [[32, 64, 64], [16, 32, 32], [64, 128, 128]]
   kernel_size: [2, 3, 4, 5]
   dropout: [0.1, 0.2, 0.3, 0.4, 0.5]
 
 training_params:
-  batch_size: [16, 32, 64, 128]
+  batch_size: [32]
   learning_rate: [0.0001, 0.0005, 0.001, 0.005, 0.01]
   optimizer: ['Adam', 'AdamW', 'RMSprop']
   weight_decay: [0.0001, 0.0005, 0.001, 0.005]
+
+# n_trial = 50

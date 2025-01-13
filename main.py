@@ -5,7 +5,8 @@ from datetime import datetime
 import numpy as np
 from typing import Dict, Any
 import logging
-
+import random
+import torch
 from data.data_loader import DataLoader
 from data.data_processor import DataProcessor
 from trainers.trainer import Trainer
@@ -13,6 +14,17 @@ from trainers.hyperopt import HyperOptimizer
 from utils.logging_utils import setup_logging
 from utils.metrics import TimeSeriesMetrics
 from utils.visualization import TimeSeriesVisualizer
+
+def set_seed(seed: int):
+    """랜덤 시드 고정"""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
 
 def get_model_class(model_name: str):
     """모델 클래스 반환"""
@@ -23,7 +35,6 @@ def get_model_class(model_name: str):
     from models.implementations.informer import InformerModel
     from models.implementations.rnn import RNNModel
     from models.implementations.adarnn import AdaRNNModel  # 추가
-    from models.implementations.segrnn import SegRNNModel
     from models.implementations.dlinear import DLinearModel
     from models.implementations.scinet import SCINetModel
     from models.implementations.timemixer import TimeMixerModel
@@ -35,8 +46,7 @@ def get_model_class(model_name: str):
         'autoformer': AutoformerModel,
         'informer': InformerModel,
         'rnn': RNNModel,
-        'adarnn': AdaRNNModel,  # 추가
-        'segrnn': SegRNNModel,  # 추가
+        'adarnn': AdaRNNModel, 
         'dlinear': DLinearModel,
         'scinet': SCINetModel,
         'timemixer': TimeMixerModel,
@@ -242,6 +252,9 @@ def main():
     # 로깅 설정
     logger = setup_logging(args.log_dir, channel_independence=args.channel_independence)
     logger.info(f"Starting experiment with args: {args}")
+    
+    # 시드 설정
+    set_seed(42)
     
     try:
         if args.optimize:

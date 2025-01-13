@@ -1,7 +1,8 @@
 # configs/exp/base.yaml
-# milano pred_len = [24, 36, 48, 60]
-input_len: 24
-pred_len: 12
+# milano pred_len = [24, 36, 72, 144]
+# milano 10min 
+input_len: 36
+pred_len: 24
 scale: true
 train_ratio: 0.7
 val_ratio: 0.2

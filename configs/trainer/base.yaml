@@ -1,7 +1,7 @@
 # configs/trainer/base.yaml
 batch_size: 32
-epochs: 5
-early_stopping_patience: 10
+epochs: 10
+early_stopping_patience: 3
 gradient_clip_val: 1.0
 save_checkpoint: true
 checkpoint_dir: "checkpoints"
