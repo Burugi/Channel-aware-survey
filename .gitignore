@@ -2,6 +2,9 @@ checkpoints/
 dataset/
 logs/
 outputs/
+archieve/
+nohup/
+temp/
 
 # 모든 .pyc 파일 무시
 *.pyc

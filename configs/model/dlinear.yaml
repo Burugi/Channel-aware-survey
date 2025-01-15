@@ -1,4 +1,51 @@
 # configs/model/dlinear.yaml
 model_type: "dlinear"
-kernel_size: 25
-individual: true
+kernel_size: 49
+individual: False
+
+# Optimizer:
+optimizer:
+  name: "AdamW"
+  params:
+    lr: 0.001
+    weight_decay: 0.0001
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+
+#######################################################
+#######################################################
+
+## BASE configuration
+## input 36 / prediction 24 / CD
+
+# model_type: "dlinear"
+# kernel_size: 49
+# individual: False
+
+# # Optimizer:
+# optimizer:
+#   name: "AdamW"
+#   params:
+#     lr: 0.001
+#     weight_decay: 0.0001
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+
+#######################################################
+#######################################################
+
+## BASE configuration
+## input 36 / prediction 24 / CI
+
+# model_type: "dlinear"
+# kernel_size: 25
+# individual: False
+
+# # Optimizer:
+# optimizer:
+#   name: "Adam"
+#   params:
+#     lr: 0.0005
+#     weight_decay: 0.001
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8

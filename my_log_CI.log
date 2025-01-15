@@ -1,0 +1,1084 @@
+nohup: ignoring input
+2025-01-14 06:50:17,769 - __main__ - INFO - Starting experiment with args: Namespace(model='adarnn', dataset='milano', channel_independence=True, optimize=True, n_trials=20, visualize=False, output_dir='outputs', log_dir='logs')
+2025-01-14 06:50:17,830 - __main__ - INFO - Loading and processing data...
+2025-01-14 06:50:17,855 - __main__ - INFO - Starting hyperparameter optimization for adarnn...
+[I 2025-01-14 06:50:18,513] A new study created in RDB with name: adarnn_milano_20250114_065017
+[I 2025-01-14 06:50:18,585] A new study created in RDB with name: adarnn_milano_20250114_065017
+2025-01-14 06:50:18,589 - HyperOptimizer - INFO - Starting hyperparameter optimization with 20 trials
+2025-01-14 06:50:18,590 - HyperOptimizer - INFO - Channel independence mode: True
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:50:18,734 - HyperOptimizer - INFO - Sampled parameters for trial 0:
+2025-01-14 06:50:18,734 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:50:18,734 - HyperOptimizer - INFO -   dropout: 0.3
+2025-01-14 06:50:18,735 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:50:18,735 - HyperOptimizer - INFO -   bottleneck_width: 512
+2025-01-14 06:50:18,735 - HyperOptimizer - INFO -   model_type: AdaRNN
+2025-01-14 06:50:18,735 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:50:18,735 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:50:18,736 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:50:18,736 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:50:18,736 - HyperOptimizer - INFO -   learning_rate: 0.001
+2025-01-14 06:50:18,736 - HyperOptimizer - INFO -   weight_decay: 0.0001
+2025-01-14 06:50:18,737 - HyperOptimizer - INFO - Initializing model for trial 0
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.3 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:50:20,286 - INFO - Starting training...
+2025-01-14 06:50:22,553 - INFO - Epoch 1/10 - train_loss: 1.0055 - val_loss: 1.0101 - feature_0_loss: 1.0040 - feature_1_loss: 1.0070 - feature_2_loss: 1.0064 - feature_3_loss: 1.0059 - feature_4_loss: 1.0042
+2025-01-14 06:50:22,565 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:50:22,577 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:50:24,623 - INFO - Epoch 2/10 - train_loss: 1.0056 - val_loss: 0.9873 - feature_0_loss: 1.0041 - feature_1_loss: 1.0070 - feature_2_loss: 1.0066 - feature_3_loss: 1.0061 - feature_4_loss: 1.0041
+2025-01-14 06:50:24,635 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:50:24,647 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:50:26,691 - INFO - Epoch 3/10 - train_loss: 1.0054 - val_loss: 0.9916 - feature_0_loss: 1.0042 - feature_1_loss: 1.0065 - feature_2_loss: 1.0065 - feature_3_loss: 1.0059 - feature_4_loss: 1.0040
+2025-01-14 06:50:26,703 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:50:28,747 - INFO - Epoch 4/10 - train_loss: 1.0046 - val_loss: 0.9938 - feature_0_loss: 1.0031 - feature_1_loss: 1.0055 - feature_2_loss: 1.0057 - feature_3_loss: 1.0052 - feature_4_loss: 1.0036
+2025-01-14 06:50:28,769 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:50:30,800 - INFO - Epoch 5/10 - train_loss: 1.0055 - val_loss: 1.0383 - feature_0_loss: 1.0038 - feature_1_loss: 1.0068 - feature_2_loss: 1.0065 - feature_3_loss: 1.0060 - feature_4_loss: 1.0043
+2025-01-14 06:50:30,812 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:50:30,812 - INFO - Early stopping triggered after 5 epochs
+/home/work/.default/hyunwoong/Channel-aware-survey/trainers/hyperopt.py:184: FutureWarning: The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+  self.results_df = pd.concat([
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:50:31,312] Trial 0 finished with value: 0.9872596011712 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.3, 'use_bottleneck': False, 'bottleneck_width': 512, 'model_type': 'AdaRNN', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.001, 'weight_decay': 0.0001}. Best is trial 0 with value: 0.9872596011712.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:50:31,449 - HyperOptimizer - INFO - Sampled parameters for trial 1:
+2025-01-14 06:50:31,450 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:50:31,450 - HyperOptimizer - INFO -   dropout: 0.3
+2025-01-14 06:50:31,450 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:50:31,451 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:50:31,451 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:50:31,451 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:50:31,451 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:50:31,451 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:50:31,451 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:50:31,451 - HyperOptimizer - INFO -   learning_rate: 0.0005
+2025-01-14 06:50:31,452 - HyperOptimizer - INFO -   weight_decay: 0.01
+2025-01-14 06:50:31,452 - HyperOptimizer - INFO - Initializing model for trial 1
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.3 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:50:31,459 - INFO - Starting training...
+2025-01-14 06:50:33,500 - INFO - Epoch 1/10 - train_loss: 1.0121 - val_loss: 1.0199 - feature_0_loss: 1.0111 - feature_1_loss: 1.0131 - feature_2_loss: 1.0132 - feature_3_loss: 1.0127 - feature_4_loss: 1.0106
+2025-01-14 06:50:33,504 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:50:33,508 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:50:35,538 - INFO - Epoch 2/10 - train_loss: 1.0135 - val_loss: 1.0339 - feature_0_loss: 1.0126 - feature_1_loss: 1.0143 - feature_2_loss: 1.0144 - feature_3_loss: 1.0139 - feature_4_loss: 1.0122
+2025-01-14 06:50:35,543 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:50:37,576 - INFO - Epoch 3/10 - train_loss: 1.0143 - val_loss: 1.0096 - feature_0_loss: 1.0129 - feature_1_loss: 1.0156 - feature_2_loss: 1.0151 - feature_3_loss: 1.0148 - feature_4_loss: 1.0132
+2025-01-14 06:50:37,581 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:50:37,585 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:50:39,573 - INFO - Epoch 4/10 - train_loss: 1.0135 - val_loss: 1.0223 - feature_0_loss: 1.0119 - feature_1_loss: 1.0153 - feature_2_loss: 1.0141 - feature_3_loss: 1.0141 - feature_4_loss: 1.0123
+2025-01-14 06:50:39,578 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:50:41,595 - INFO - Epoch 5/10 - train_loss: 1.0118 - val_loss: 1.0419 - feature_0_loss: 1.0107 - feature_1_loss: 1.0128 - feature_2_loss: 1.0128 - feature_3_loss: 1.0123 - feature_4_loss: 1.0105
+2025-01-14 06:50:41,602 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:50:43,596 - INFO - Epoch 6/10 - train_loss: 1.0138 - val_loss: 1.0103 - feature_0_loss: 1.0127 - feature_1_loss: 1.0148 - feature_2_loss: 1.0149 - feature_3_loss: 1.0143 - feature_4_loss: 1.0123
+2025-01-14 06:50:43,601 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:50:43,601 - INFO - Early stopping triggered after 6 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:50:43,703] Trial 1 finished with value: 1.0096444350022535 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.3, 'use_bottleneck': False, 'bottleneck_width': 128, 'model_type': 'Boosting', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0005, 'weight_decay': 0.01}. Best is trial 0 with value: 0.9872596011712.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:50:43,844 - HyperOptimizer - INFO - Sampled parameters for trial 2:
+2025-01-14 06:50:43,844 - HyperOptimizer - INFO -   hidden_sizes: (256, 256)
+2025-01-14 06:50:43,844 - HyperOptimizer - INFO -   dropout: 0.1
+2025-01-14 06:50:43,845 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:50:43,845 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:50:43,845 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:50:43,845 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:50:43,846 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:50:43,846 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:50:43,846 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:50:43,846 - HyperOptimizer - INFO -   learning_rate: 0.001
+2025-01-14 06:50:43,847 - HyperOptimizer - INFO -   weight_decay: 0.01
+2025-01-14 06:50:43,847 - HyperOptimizer - INFO - Initializing model for trial 2
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.1 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:50:43,859 - INFO - Starting training...
+2025-01-14 06:50:47,110 - INFO - Epoch 1/10 - train_loss: 1.0052 - val_loss: 1.0149 - feature_0_loss: 1.0036 - feature_1_loss: 1.0063 - feature_2_loss: 1.0063 - feature_3_loss: 1.0060 - feature_4_loss: 1.0039
+2025-01-14 06:50:47,124 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:50:47,138 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:50:49,884 - INFO - Epoch 2/10 - train_loss: 1.0049 - val_loss: 1.0137 - feature_0_loss: 1.0035 - feature_1_loss: 1.0065 - feature_2_loss: 1.0057 - feature_3_loss: 1.0053 - feature_4_loss: 1.0035
+2025-01-14 06:50:49,899 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:50:49,913 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:50:52,673 - INFO - Epoch 3/10 - train_loss: 1.0042 - val_loss: 0.9910 - feature_0_loss: 1.0030 - feature_1_loss: 1.0054 - feature_2_loss: 1.0052 - feature_3_loss: 1.0047 - feature_4_loss: 1.0029
+2025-01-14 06:50:52,687 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:50:52,700 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:50:55,458 - INFO - Epoch 4/10 - train_loss: 1.0044 - val_loss: 1.0207 - feature_0_loss: 1.0033 - feature_1_loss: 1.0050 - feature_2_loss: 1.0057 - feature_3_loss: 1.0051 - feature_4_loss: 1.0030
+2025-01-14 06:50:55,471 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:50:58,235 - INFO - Epoch 5/10 - train_loss: 1.0046 - val_loss: 0.9902 - feature_0_loss: 1.0033 - feature_1_loss: 1.0062 - feature_2_loss: 1.0056 - feature_3_loss: 1.0050 - feature_4_loss: 1.0030
+2025-01-14 06:50:58,251 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:50:58,265 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:51:01,016 - INFO - Epoch 6/10 - train_loss: 1.0049 - val_loss: 1.0014 - feature_0_loss: 1.0035 - feature_1_loss: 1.0066 - feature_2_loss: 1.0056 - feature_3_loss: 1.0053 - feature_4_loss: 1.0034
+2025-01-14 06:51:01,031 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:51:03,792 - INFO - Epoch 7/10 - train_loss: 1.0033 - val_loss: 1.0148 - feature_0_loss: 1.0022 - feature_1_loss: 1.0042 - feature_2_loss: 1.0044 - feature_3_loss: 1.0038 - feature_4_loss: 1.0021
+2025-01-14 06:51:03,807 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:51:06,566 - INFO - Epoch 8/10 - train_loss: 1.0041 - val_loss: 1.0068 - feature_0_loss: 1.0028 - feature_1_loss: 1.0052 - feature_2_loss: 1.0051 - feature_3_loss: 1.0047 - feature_4_loss: 1.0028
+2025-01-14 06:51:06,581 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_8.pt
+2025-01-14 06:51:06,581 - INFO - Early stopping triggered after 8 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:51:06,946] Trial 2 finished with value: 0.9901529504702642 and parameters: {'hidden_sizes': [256, 256], 'dropout': 0.1, 'use_bottleneck': False, 'bottleneck_width': 128, 'model_type': 'Boosting', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.001, 'weight_decay': 0.01}. Best is trial 0 with value: 0.9872596011712.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:51:07,099 - HyperOptimizer - INFO - Sampled parameters for trial 3:
+2025-01-14 06:51:07,099 - HyperOptimizer - INFO -   hidden_sizes: (256, 256)
+2025-01-14 06:51:07,099 - HyperOptimizer - INFO -   dropout: 0.4
+2025-01-14 06:51:07,099 - HyperOptimizer - INFO -   use_bottleneck: True
+2025-01-14 06:51:07,099 - HyperOptimizer - INFO -   bottleneck_width: 512
+2025-01-14 06:51:07,100 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:51:07,100 - HyperOptimizer - INFO -   trans_loss: mmd
+2025-01-14 06:51:07,100 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:51:07,100 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:51:07,100 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:51:07,100 - HyperOptimizer - INFO -   learning_rate: 0.001
+2025-01-14 06:51:07,103 - HyperOptimizer - INFO -   weight_decay: 0.01
+2025-01-14 06:51:07,107 - HyperOptimizer - INFO - Initializing model for trial 3
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.4 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:51:07,128 - INFO - Starting training...
+2025-01-14 06:51:10,970 - INFO - Epoch 1/10 - train_loss: 0.9932 - val_loss: 1.9140 - feature_0_loss: 0.9976 - feature_1_loss: 1.0058 - feature_2_loss: 0.9857 - feature_3_loss: 0.9895 - feature_4_loss: 0.9876
+2025-01-14 06:51:10,991 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:51:11,009 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:51:14,788 - INFO - Epoch 2/10 - train_loss: 0.9954 - val_loss: 1.8899 - feature_0_loss: 0.9867 - feature_1_loss: 1.0180 - feature_2_loss: 0.9888 - feature_3_loss: 0.9994 - feature_4_loss: 0.9842
+2025-01-14 06:51:14,807 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:51:14,828 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:51:18,602 - INFO - Epoch 3/10 - train_loss: 0.9943 - val_loss: 1.9450 - feature_0_loss: 0.9984 - feature_1_loss: 1.0105 - feature_2_loss: 0.9809 - feature_3_loss: 0.9948 - feature_4_loss: 0.9866
+2025-01-14 06:51:18,622 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:51:22,422 - INFO - Epoch 4/10 - train_loss: 0.9966 - val_loss: 1.9029 - feature_0_loss: 0.9913 - feature_1_loss: 1.0088 - feature_2_loss: 0.9858 - feature_3_loss: 1.0054 - feature_4_loss: 0.9918
+2025-01-14 06:51:22,442 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:51:26,233 - INFO - Epoch 5/10 - train_loss: 0.9964 - val_loss: 1.9521 - feature_0_loss: 0.9904 - feature_1_loss: 1.0127 - feature_2_loss: 0.9929 - feature_3_loss: 0.9975 - feature_4_loss: 0.9883
+2025-01-14 06:51:26,256 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:51:26,256 - INFO - Early stopping triggered after 5 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:51:26,379] Trial 3 finished with value: 1.8898669527127192 and parameters: {'hidden_sizes': [256, 256], 'dropout': 0.4, 'use_bottleneck': True, 'bottleneck_width': 512, 'model_type': 'Boosting', 'trans_loss': 'mmd', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.001, 'weight_decay': 0.01}. Best is trial 0 with value: 0.9872596011712.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:51:26,536 - HyperOptimizer - INFO - Sampled parameters for trial 4:
+2025-01-14 06:51:26,536 - HyperOptimizer - INFO -   hidden_sizes: (32, 32)
+2025-01-14 06:51:26,536 - HyperOptimizer - INFO -   dropout: 0.4
+2025-01-14 06:51:26,537 - HyperOptimizer - INFO -   use_bottleneck: True
+2025-01-14 06:51:26,537 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:51:26,537 - HyperOptimizer - INFO -   model_type: AdaRNN
+2025-01-14 06:51:26,537 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:51:26,538 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:51:26,538 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:51:26,538 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:51:26,538 - HyperOptimizer - INFO -   learning_rate: 0.005
+2025-01-14 06:51:26,539 - HyperOptimizer - INFO -   weight_decay: 0.01
+2025-01-14 06:51:26,539 - HyperOptimizer - INFO - Initializing model for trial 4
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.4 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:51:26,558 - INFO - Starting training...
+2025-01-14 06:51:29,912 - INFO - Epoch 1/10 - train_loss: 1.2524 - val_loss: 1.4141 - feature_0_loss: 1.2477 - feature_1_loss: 1.2499 - feature_2_loss: 1.2545 - feature_3_loss: 1.2597 - feature_4_loss: 1.2503
+2025-01-14 06:51:29,923 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:51:29,933 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:51:33,268 - INFO - Epoch 2/10 - train_loss: 1.2469 - val_loss: 1.3815 - feature_0_loss: 1.2335 - feature_1_loss: 1.2320 - feature_2_loss: 1.2623 - feature_3_loss: 1.2536 - feature_4_loss: 1.2531
+2025-01-14 06:51:33,279 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:51:33,289 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:51:36,633 - INFO - Epoch 3/10 - train_loss: 1.2551 - val_loss: 1.4435 - feature_0_loss: 1.2448 - feature_1_loss: 1.2598 - feature_2_loss: 1.2750 - feature_3_loss: 1.2536 - feature_4_loss: 1.2421
+2025-01-14 06:51:36,644 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:51:39,977 - INFO - Epoch 4/10 - train_loss: 1.2499 - val_loss: 1.3771 - feature_0_loss: 1.2403 - feature_1_loss: 1.2451 - feature_2_loss: 1.2602 - feature_3_loss: 1.2613 - feature_4_loss: 1.2425
+2025-01-14 06:51:39,989 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:51:40,000 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:51:43,337 - INFO - Epoch 5/10 - train_loss: 1.2508 - val_loss: 1.3826 - feature_0_loss: 1.2348 - feature_1_loss: 1.2263 - feature_2_loss: 1.2832 - feature_3_loss: 1.2741 - feature_4_loss: 1.2359
+2025-01-14 06:51:43,358 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:51:46,659 - INFO - Epoch 6/10 - train_loss: 1.2487 - val_loss: 1.3386 - feature_0_loss: 1.2492 - feature_1_loss: 1.2187 - feature_2_loss: 1.2861 - feature_3_loss: 1.2618 - feature_4_loss: 1.2279
+2025-01-14 06:51:46,671 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:51:46,681 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:51:50,012 - INFO - Epoch 7/10 - train_loss: 1.2477 - val_loss: 1.3474 - feature_0_loss: 1.2430 - feature_1_loss: 1.2275 - feature_2_loss: 1.2645 - feature_3_loss: 1.2463 - feature_4_loss: 1.2571
+2025-01-14 06:51:50,023 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:51:53,352 - INFO - Epoch 8/10 - train_loss: 1.2478 - val_loss: 1.3628 - feature_0_loss: 1.2397 - feature_1_loss: 1.2408 - feature_2_loss: 1.2632 - feature_3_loss: 1.2421 - feature_4_loss: 1.2531
+2025-01-14 06:51:53,362 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_8.pt
+2025-01-14 06:51:56,700 - INFO - Epoch 9/10 - train_loss: 1.2518 - val_loss: 1.3674 - feature_0_loss: 1.2335 - feature_1_loss: 1.2290 - feature_2_loss: 1.2843 - feature_3_loss: 1.2747 - feature_4_loss: 1.2373
+2025-01-14 06:51:56,711 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_9.pt
+2025-01-14 06:51:56,711 - INFO - Early stopping triggered after 9 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:51:56,830] Trial 4 finished with value: 1.3386290302643409 and parameters: {'hidden_sizes': [32, 32], 'dropout': 0.4, 'use_bottleneck': True, 'bottleneck_width': 128, 'model_type': 'AdaRNN', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.005, 'weight_decay': 0.01}. Best is trial 0 with value: 0.9872596011712.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:51:56,984 - HyperOptimizer - INFO - Sampled parameters for trial 5:
+2025-01-14 06:51:56,984 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:51:56,984 - HyperOptimizer - INFO -   dropout: 0.2
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   learning_rate: 0.0001
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO -   weight_decay: 0.0001
+2025-01-14 06:51:56,985 - HyperOptimizer - INFO - Initializing model for trial 5
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:51:56,992 - INFO - Starting training...
+2025-01-14 06:51:59,298 - INFO - Epoch 1/10 - train_loss: 1.0039 - val_loss: 0.9875 - feature_0_loss: 1.0026 - feature_1_loss: 1.0056 - feature_2_loss: 1.0047 - feature_3_loss: 1.0044 - feature_4_loss: 1.0024
+2025-01-14 06:51:59,303 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:51:59,308 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:01,641 - INFO - Epoch 2/10 - train_loss: 1.0031 - val_loss: 0.9785 - feature_0_loss: 1.0021 - feature_1_loss: 1.0039 - feature_2_loss: 1.0040 - feature_3_loss: 1.0034 - feature_4_loss: 1.0018
+2025-01-14 06:52:01,647 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:52:01,652 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:03,987 - INFO - Epoch 3/10 - train_loss: 1.0031 - val_loss: 0.9974 - feature_0_loss: 1.0019 - feature_1_loss: 1.0041 - feature_2_loss: 1.0042 - feature_3_loss: 1.0036 - feature_4_loss: 1.0016
+2025-01-14 06:52:03,992 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:52:06,305 - INFO - Epoch 4/10 - train_loss: 1.0027 - val_loss: 1.0390 - feature_0_loss: 1.0016 - feature_1_loss: 1.0037 - feature_2_loss: 1.0038 - feature_3_loss: 1.0031 - feature_4_loss: 1.0014
+2025-01-14 06:52:06,310 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:52:08,607 - INFO - Epoch 5/10 - train_loss: 1.0034 - val_loss: 1.0007 - feature_0_loss: 1.0021 - feature_1_loss: 1.0043 - feature_2_loss: 1.0047 - feature_3_loss: 1.0040 - feature_4_loss: 1.0021
+2025-01-14 06:52:08,771 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:52:08,772 - INFO - Early stopping triggered after 5 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:52:08,873] Trial 5 finished with value: 0.9784507166880828 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.2, 'use_bottleneck': False, 'bottleneck_width': 256, 'model_type': 'Boosting', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.0001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:52:09,019 - HyperOptimizer - INFO - Sampled parameters for trial 6:
+2025-01-14 06:52:09,019 - HyperOptimizer - INFO -   hidden_sizes: (256, 256)
+2025-01-14 06:52:09,019 - HyperOptimizer - INFO -   dropout: 0.1
+2025-01-14 06:52:09,019 - HyperOptimizer - INFO -   use_bottleneck: True
+2025-01-14 06:52:09,019 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO -   model_type: AdaRNN
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO -   learning_rate: 0.001
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:52:09,020 - HyperOptimizer - INFO - Initializing model for trial 6
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.1 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:52:09,061 - INFO - Starting training...
+2025-01-14 06:52:12,849 - INFO - Epoch 1/10 - train_loss: 0.7476 - val_loss: 2.1126 - feature_0_loss: 0.7383 - feature_1_loss: 0.7760 - feature_2_loss: 0.7467 - feature_3_loss: 0.7461 - feature_4_loss: 0.7311
+2025-01-14 06:52:12,882 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:52:12,912 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:16,697 - INFO - Epoch 2/10 - train_loss: 0.7535 - val_loss: 1.9979 - feature_0_loss: 0.7467 - feature_1_loss: 0.7800 - feature_2_loss: 0.7533 - feature_3_loss: 0.7555 - feature_4_loss: 0.7319
+2025-01-14 06:52:16,728 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:52:16,758 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:20,547 - INFO - Epoch 3/10 - train_loss: 0.7545 - val_loss: 1.9726 - feature_0_loss: 0.7430 - feature_1_loss: 0.7851 - feature_2_loss: 0.7576 - feature_3_loss: 0.7544 - feature_4_loss: 0.7327
+2025-01-14 06:52:20,580 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:52:20,609 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:24,394 - INFO - Epoch 4/10 - train_loss: 0.7524 - val_loss: 1.9831 - feature_0_loss: 0.7428 - feature_1_loss: 0.7749 - feature_2_loss: 0.7533 - feature_3_loss: 0.7542 - feature_4_loss: 0.7366
+2025-01-14 06:52:24,425 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:52:28,209 - INFO - Epoch 5/10 - train_loss: 0.7523 - val_loss: 1.9972 - feature_0_loss: 0.7442 - feature_1_loss: 0.7780 - feature_2_loss: 0.7536 - feature_3_loss: 0.7486 - feature_4_loss: 0.7372
+2025-01-14 06:52:28,242 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:52:32,037 - INFO - Epoch 6/10 - train_loss: 0.7484 - val_loss: 1.9301 - feature_0_loss: 0.7368 - feature_1_loss: 0.7764 - feature_2_loss: 0.7548 - feature_3_loss: 0.7465 - feature_4_loss: 0.7276
+2025-01-14 06:52:32,070 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:52:32,099 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:35,903 - INFO - Epoch 7/10 - train_loss: 0.7504 - val_loss: 1.8936 - feature_0_loss: 0.7416 - feature_1_loss: 0.7790 - feature_2_loss: 0.7484 - feature_3_loss: 0.7466 - feature_4_loss: 0.7362
+2025-01-14 06:52:35,955 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:52:36,020 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:39,823 - INFO - Epoch 8/10 - train_loss: 0.7501 - val_loss: 1.7873 - feature_0_loss: 0.7388 - feature_1_loss: 0.7802 - feature_2_loss: 0.7540 - feature_3_loss: 0.7448 - feature_4_loss: 0.7325
+2025-01-14 06:52:39,853 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_8.pt
+2025-01-14 06:52:39,883 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:43,684 - INFO - Epoch 9/10 - train_loss: 0.7491 - val_loss: 2.0469 - feature_0_loss: 0.7373 - feature_1_loss: 0.7774 - feature_2_loss: 0.7503 - feature_3_loss: 0.7485 - feature_4_loss: 0.7319
+2025-01-14 06:52:44,066 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_9.pt
+2025-01-14 06:52:47,838 - INFO - Epoch 10/10 - train_loss: 0.7509 - val_loss: 1.9828 - feature_0_loss: 0.7394 - feature_1_loss: 0.7820 - feature_2_loss: 0.7485 - feature_3_loss: 0.7471 - feature_4_loss: 0.7375
+2025-01-14 06:52:47,875 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_10.pt
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:52:47,991] Trial 6 finished with value: 1.7872871848253102 and parameters: {'hidden_sizes': [256, 256], 'dropout': 0.1, 'use_bottleneck': True, 'bottleneck_width': 128, 'model_type': 'AdaRNN', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.001, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO - Sampled parameters for trial 7:
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   hidden_sizes: (128, 128)
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   dropout: 0.4
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:52:48,132 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:52:48,133 - HyperOptimizer - INFO -   learning_rate: 0.0001
+2025-01-14 06:52:48,133 - HyperOptimizer - INFO -   weight_decay: 0.0001
+2025-01-14 06:52:48,133 - HyperOptimizer - INFO - Initializing model for trial 7
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.4 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:52:48,677 - INFO - Starting training...
+2025-01-14 06:52:51,037 - INFO - Epoch 1/10 - train_loss: 1.0048 - val_loss: 0.9853 - feature_0_loss: 1.0032 - feature_1_loss: 1.0062 - feature_2_loss: 1.0058 - feature_3_loss: 1.0055 - feature_4_loss: 1.0035
+2025-01-14 06:52:51,043 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:52:51,050 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:52:53,403 - INFO - Epoch 2/10 - train_loss: 1.0039 - val_loss: 1.0110 - feature_0_loss: 1.0029 - feature_1_loss: 1.0046 - feature_2_loss: 1.0050 - feature_3_loss: 1.0044 - feature_4_loss: 1.0026
+2025-01-14 06:52:53,409 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:52:55,763 - INFO - Epoch 3/10 - train_loss: 1.0050 - val_loss: 0.9932 - feature_0_loss: 1.0038 - feature_1_loss: 1.0061 - feature_2_loss: 1.0060 - feature_3_loss: 1.0055 - feature_4_loss: 1.0037
+2025-01-14 06:52:55,770 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:52:58,091 - INFO - Epoch 4/10 - train_loss: 1.0048 - val_loss: 0.9992 - feature_0_loss: 1.0040 - feature_1_loss: 1.0058 - feature_2_loss: 1.0057 - feature_3_loss: 1.0049 - feature_4_loss: 1.0037
+2025-01-14 06:52:58,099 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:52:58,099 - INFO - Early stopping triggered after 4 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:52:59,180] Trial 7 finished with value: 0.9852821620611044 and parameters: {'hidden_sizes': [128, 128], 'dropout': 0.4, 'use_bottleneck': False, 'bottleneck_width': 128, 'model_type': 'Boosting', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.0001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO - Sampled parameters for trial 8:
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   hidden_sizes: (256, 256)
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   dropout: 0.1
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   learning_rate: 0.005
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO -   weight_decay: 0.01
+2025-01-14 06:52:59,326 - HyperOptimizer - INFO - Initializing model for trial 8
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.1 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:52:59,337 - INFO - Starting training...
+2025-01-14 06:53:02,152 - INFO - Epoch 1/10 - train_loss: 1.0049 - val_loss: 1.0242 - feature_0_loss: 1.0034 - feature_1_loss: 1.0058 - feature_2_loss: 1.0060 - feature_3_loss: 1.0054 - feature_4_loss: 1.0036
+2025-01-14 06:53:02,169 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:53:02,183 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:04,991 - INFO - Epoch 2/10 - train_loss: 1.0045 - val_loss: 1.0121 - feature_0_loss: 1.0034 - feature_1_loss: 1.0054 - feature_2_loss: 1.0057 - feature_3_loss: 1.0050 - feature_4_loss: 1.0031
+2025-01-14 06:53:05,006 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:53:05,021 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:07,836 - INFO - Epoch 3/10 - train_loss: 1.0057 - val_loss: 1.0064 - feature_0_loss: 1.0045 - feature_1_loss: 1.0063 - feature_2_loss: 1.0070 - feature_3_loss: 1.0063 - feature_4_loss: 1.0043
+2025-01-14 06:53:07,851 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:53:07,865 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:10,648 - INFO - Epoch 4/10 - train_loss: 1.0048 - val_loss: 0.9984 - feature_0_loss: 1.0033 - feature_1_loss: 1.0058 - feature_2_loss: 1.0059 - feature_3_loss: 1.0055 - feature_4_loss: 1.0034
+2025-01-14 06:53:10,664 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:53:10,678 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:13,481 - INFO - Epoch 5/10 - train_loss: 1.0064 - val_loss: 1.0050 - feature_0_loss: 1.0052 - feature_1_loss: 1.0077 - feature_2_loss: 1.0076 - feature_3_loss: 1.0069 - feature_4_loss: 1.0049
+2025-01-14 06:53:13,497 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:53:16,300 - INFO - Epoch 6/10 - train_loss: 1.0044 - val_loss: 1.0164 - feature_0_loss: 1.0031 - feature_1_loss: 1.0053 - feature_2_loss: 1.0054 - feature_3_loss: 1.0049 - feature_4_loss: 1.0033
+2025-01-14 06:53:16,316 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:53:19,115 - INFO - Epoch 7/10 - train_loss: 1.0044 - val_loss: 1.0221 - feature_0_loss: 1.0034 - feature_1_loss: 1.0053 - feature_2_loss: 1.0055 - feature_3_loss: 1.0048 - feature_4_loss: 1.0031
+2025-01-14 06:53:19,130 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:53:19,130 - INFO - Early stopping triggered after 7 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:53:19,248] Trial 8 finished with value: 0.9983680592133448 and parameters: {'hidden_sizes': [256, 256], 'dropout': 0.1, 'use_bottleneck': False, 'bottleneck_width': 128, 'model_type': 'Boosting', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.005, 'weight_decay': 0.01}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:53:19,401 - HyperOptimizer - INFO - Sampled parameters for trial 9:
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   dropout: 0.1
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   learning_rate: 0.0005
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:53:19,403 - HyperOptimizer - INFO - Initializing model for trial 9
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.1 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:53:19,409 - INFO - Starting training...
+2025-01-14 06:53:21,753 - INFO - Epoch 1/10 - train_loss: 0.9991 - val_loss: 1.0083 - feature_0_loss: 0.9978 - feature_1_loss: 1.0011 - feature_2_loss: 0.9997 - feature_3_loss: 0.9991 - feature_4_loss: 0.9975
+2025-01-14 06:53:21,757 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:53:21,762 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:24,098 - INFO - Epoch 2/10 - train_loss: 0.9988 - val_loss: 1.0098 - feature_0_loss: 0.9974 - feature_1_loss: 1.0005 - feature_2_loss: 0.9997 - feature_3_loss: 0.9995 - feature_4_loss: 0.9971
+2025-01-14 06:53:24,102 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:53:26,433 - INFO - Epoch 3/10 - train_loss: 0.9989 - val_loss: 0.9819 - feature_0_loss: 0.9976 - feature_1_loss: 1.0008 - feature_2_loss: 0.9999 - feature_3_loss: 0.9993 - feature_4_loss: 0.9971
+2025-01-14 06:53:26,438 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:53:26,442 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:28,778 - INFO - Epoch 4/10 - train_loss: 0.9990 - val_loss: 0.9906 - feature_0_loss: 0.9978 - feature_1_loss: 1.0005 - feature_2_loss: 0.9999 - feature_3_loss: 0.9993 - feature_4_loss: 0.9974
+2025-01-14 06:53:28,783 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:53:31,122 - INFO - Epoch 5/10 - train_loss: 0.9988 - val_loss: 0.9853 - feature_0_loss: 0.9975 - feature_1_loss: 1.0007 - feature_2_loss: 0.9996 - feature_3_loss: 0.9993 - feature_4_loss: 0.9970
+2025-01-14 06:53:31,127 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:53:33,469 - INFO - Epoch 6/10 - train_loss: 0.9988 - val_loss: 0.9928 - feature_0_loss: 0.9974 - feature_1_loss: 1.0005 - feature_2_loss: 0.9996 - feature_3_loss: 0.9990 - feature_4_loss: 0.9974
+2025-01-14 06:53:33,473 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:53:33,473 - INFO - Early stopping triggered after 6 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:53:33,579] Trial 9 finished with value: 0.9818993760989263 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.1, 'use_bottleneck': False, 'bottleneck_width': 128, 'model_type': 'Boosting', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0005, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:53:33,731 - HyperOptimizer - INFO - Sampled parameters for trial 10:
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   hidden_sizes: (128, 128)
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   dropout: 0.2
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   use_bottleneck: True
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   model_type: AdaRNN
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   trans_loss: mmd
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   learning_rate: 0.0001
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO -   weight_decay: 0.0001
+2025-01-14 06:53:33,732 - HyperOptimizer - INFO - Initializing model for trial 10
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:53:33,757 - INFO - Starting training...
+2025-01-14 06:53:37,139 - INFO - Epoch 1/10 - train_loss: 0.8513 - val_loss: 2.9606 - feature_0_loss: 0.8386 - feature_1_loss: 0.8757 - feature_2_loss: 0.8452 - feature_3_loss: 0.8501 - feature_4_loss: 0.8471
+2025-01-14 06:53:37,157 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:53:37,175 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:40,575 - INFO - Epoch 2/10 - train_loss: 0.8601 - val_loss: 2.9321 - feature_0_loss: 0.8491 - feature_1_loss: 0.8772 - feature_2_loss: 0.8635 - feature_3_loss: 0.8679 - feature_4_loss: 0.8426
+2025-01-14 06:53:40,593 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:53:40,610 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:44,013 - INFO - Epoch 3/10 - train_loss: 0.8618 - val_loss: 2.8784 - feature_0_loss: 0.8590 - feature_1_loss: 0.8885 - feature_2_loss: 0.8500 - feature_3_loss: 0.8465 - feature_4_loss: 0.8652
+2025-01-14 06:53:44,034 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:53:44,053 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:47,456 - INFO - Epoch 4/10 - train_loss: 0.8568 - val_loss: 2.9068 - feature_0_loss: 0.8550 - feature_1_loss: 0.8821 - feature_2_loss: 0.8597 - feature_3_loss: 0.8448 - feature_4_loss: 0.8427
+2025-01-14 06:53:47,482 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:53:50,881 - INFO - Epoch 5/10 - train_loss: 0.8581 - val_loss: 2.9337 - feature_0_loss: 0.8607 - feature_1_loss: 0.8754 - feature_2_loss: 0.8536 - feature_3_loss: 0.8501 - feature_4_loss: 0.8505
+2025-01-14 06:53:50,905 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:53:54,262 - INFO - Epoch 6/10 - train_loss: 0.8587 - val_loss: 3.0844 - feature_0_loss: 0.8531 - feature_1_loss: 0.8802 - feature_2_loss: 0.8474 - feature_3_loss: 0.8626 - feature_4_loss: 0.8500
+2025-01-14 06:53:54,300 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:53:54,301 - INFO - Early stopping triggered after 6 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:53:54,443] Trial 10 finished with value: 2.8784077305060167 and parameters: {'hidden_sizes': [128, 128], 'dropout': 0.2, 'use_bottleneck': True, 'bottleneck_width': 256, 'model_type': 'AdaRNN', 'trans_loss': 'mmd', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.0001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO - Sampled parameters for trial 11:
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   dropout: 0.2
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   learning_rate: 0.0005
+2025-01-14 06:53:54,592 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:53:54,593 - HyperOptimizer - INFO - Initializing model for trial 11
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:53:54,601 - INFO - Starting training...
+2025-01-14 06:53:56,640 - INFO - Epoch 1/10 - train_loss: 1.0013 - val_loss: 1.0026 - feature_0_loss: 0.9998 - feature_1_loss: 1.0027 - feature_2_loss: 1.0024 - feature_3_loss: 1.0019 - feature_4_loss: 0.9998
+2025-01-14 06:53:56,644 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:53:56,648 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:53:58,696 - INFO - Epoch 2/10 - train_loss: 1.0008 - val_loss: 0.9910 - feature_0_loss: 0.9995 - feature_1_loss: 1.0024 - feature_2_loss: 1.0017 - feature_3_loss: 1.0013 - feature_4_loss: 0.9992
+2025-01-14 06:53:58,700 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:53:58,704 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:00,742 - INFO - Epoch 3/10 - train_loss: 1.0011 - val_loss: 1.0295 - feature_0_loss: 0.9999 - feature_1_loss: 1.0026 - feature_2_loss: 1.0019 - feature_3_loss: 1.0015 - feature_4_loss: 0.9997
+2025-01-14 06:54:00,748 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:54:02,743 - INFO - Epoch 4/10 - train_loss: 1.0015 - val_loss: 1.0234 - feature_0_loss: 1.0003 - feature_1_loss: 1.0028 - feature_2_loss: 1.0025 - feature_3_loss: 1.0018 - feature_4_loss: 1.0000
+2025-01-14 06:54:02,749 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:54:04,777 - INFO - Epoch 5/10 - train_loss: 1.0020 - val_loss: 0.9971 - feature_0_loss: 1.0006 - feature_1_loss: 1.0032 - feature_2_loss: 1.0032 - feature_3_loss: 1.0026 - feature_4_loss: 1.0005
+2025-01-14 06:54:04,782 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:54:04,782 - INFO - Early stopping triggered after 5 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:54:04,881] Trial 11 finished with value: 0.9910067617893219 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.2, 'use_bottleneck': False, 'bottleneck_width': 256, 'model_type': 'Boosting', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0005, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:54:05,035 - HyperOptimizer - INFO - Sampled parameters for trial 12:
+2025-01-14 06:54:05,035 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   dropout: 0.2
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   learning_rate: 0.0001
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:54:05,036 - HyperOptimizer - INFO - Initializing model for trial 12
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:54:05,042 - INFO - Starting training...
+2025-01-14 06:54:07,077 - INFO - Epoch 1/10 - train_loss: 1.0031 - val_loss: 0.9921 - feature_0_loss: 1.0017 - feature_1_loss: 1.0044 - feature_2_loss: 1.0040 - feature_3_loss: 1.0037 - feature_4_loss: 1.0017
+2025-01-14 06:54:07,080 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:54:07,084 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:09,114 - INFO - Epoch 2/10 - train_loss: 1.0041 - val_loss: 0.9976 - feature_0_loss: 1.0024 - feature_1_loss: 1.0055 - feature_2_loss: 1.0053 - feature_3_loss: 1.0049 - feature_4_loss: 1.0024
+2025-01-14 06:54:09,118 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:54:11,151 - INFO - Epoch 3/10 - train_loss: 1.0047 - val_loss: 0.9987 - feature_0_loss: 1.0032 - feature_1_loss: 1.0061 - feature_2_loss: 1.0059 - feature_3_loss: 1.0053 - feature_4_loss: 1.0029
+2025-01-14 06:54:11,156 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:54:13,196 - INFO - Epoch 4/10 - train_loss: 1.0034 - val_loss: 0.9919 - feature_0_loss: 1.0021 - feature_1_loss: 1.0046 - feature_2_loss: 1.0044 - feature_3_loss: 1.0039 - feature_4_loss: 1.0020
+2025-01-14 06:54:13,202 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:54:13,206 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:15,240 - INFO - Epoch 5/10 - train_loss: 1.0036 - val_loss: 1.0180 - feature_0_loss: 1.0023 - feature_1_loss: 1.0045 - feature_2_loss: 1.0050 - feature_3_loss: 1.0041 - feature_4_loss: 1.0019
+2025-01-14 06:54:15,245 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:54:17,216 - INFO - Epoch 6/10 - train_loss: 1.0035 - val_loss: 1.0407 - feature_0_loss: 1.0024 - feature_1_loss: 1.0045 - feature_2_loss: 1.0046 - feature_3_loss: 1.0040 - feature_4_loss: 1.0022
+2025-01-14 06:54:17,224 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:54:19,228 - INFO - Epoch 7/10 - train_loss: 1.0036 - val_loss: 1.0020 - feature_0_loss: 1.0022 - feature_1_loss: 1.0052 - feature_2_loss: 1.0044 - feature_3_loss: 1.0040 - feature_4_loss: 1.0021
+2025-01-14 06:54:19,233 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:54:19,233 - INFO - Early stopping triggered after 7 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:54:19,334] Trial 12 finished with value: 0.9918942130528964 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.2, 'use_bottleneck': False, 'bottleneck_width': 256, 'model_type': 'Boosting', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO - Sampled parameters for trial 13:
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   dropout: 0.1
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   learning_rate: 0.0005
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:54:19,479 - HyperOptimizer - INFO - Initializing model for trial 13
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.1 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:54:19,487 - INFO - Starting training...
+2025-01-14 06:54:21,482 - INFO - Epoch 1/10 - train_loss: 1.0023 - val_loss: 1.0296 - feature_0_loss: 1.0010 - feature_1_loss: 1.0035 - feature_2_loss: 1.0034 - feature_3_loss: 1.0029 - feature_4_loss: 1.0009
+2025-01-14 06:54:21,486 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:54:21,490 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:23,514 - INFO - Epoch 2/10 - train_loss: 1.0024 - val_loss: 1.0065 - feature_0_loss: 1.0015 - feature_1_loss: 1.0032 - feature_2_loss: 1.0036 - feature_3_loss: 1.0028 - feature_4_loss: 1.0010
+2025-01-14 06:54:23,519 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:54:23,522 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:25,527 - INFO - Epoch 3/10 - train_loss: 1.0018 - val_loss: 1.0020 - feature_0_loss: 1.0006 - feature_1_loss: 1.0032 - feature_2_loss: 1.0027 - feature_3_loss: 1.0022 - feature_4_loss: 1.0003
+2025-01-14 06:54:25,531 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:54:25,535 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:27,518 - INFO - Epoch 4/10 - train_loss: 1.0018 - val_loss: 1.0043 - feature_0_loss: 1.0005 - feature_1_loss: 1.0033 - feature_2_loss: 1.0026 - feature_3_loss: 1.0023 - feature_4_loss: 1.0004
+2025-01-14 06:54:27,522 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:54:29,515 - INFO - Epoch 5/10 - train_loss: 1.0028 - val_loss: 1.0127 - feature_0_loss: 1.0018 - feature_1_loss: 1.0038 - feature_2_loss: 1.0038 - feature_3_loss: 1.0032 - feature_4_loss: 1.0016
+2025-01-14 06:54:29,520 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:54:31,551 - INFO - Epoch 6/10 - train_loss: 1.0035 - val_loss: 0.9863 - feature_0_loss: 1.0022 - feature_1_loss: 1.0044 - feature_2_loss: 1.0047 - feature_3_loss: 1.0042 - feature_4_loss: 1.0021
+2025-01-14 06:54:31,555 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:54:31,561 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:33,566 - INFO - Epoch 7/10 - train_loss: 1.0031 - val_loss: 0.9874 - feature_0_loss: 1.0018 - feature_1_loss: 1.0045 - feature_2_loss: 1.0039 - feature_3_loss: 1.0035 - feature_4_loss: 1.0016
+2025-01-14 06:54:33,570 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:54:35,606 - INFO - Epoch 8/10 - train_loss: 1.0021 - val_loss: 1.0040 - feature_0_loss: 1.0009 - feature_1_loss: 1.0033 - feature_2_loss: 1.0030 - feature_3_loss: 1.0026 - feature_4_loss: 1.0007
+2025-01-14 06:54:35,611 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_8.pt
+2025-01-14 06:54:37,553 - INFO - Epoch 9/10 - train_loss: 1.0026 - val_loss: 1.0262 - feature_0_loss: 1.0017 - feature_1_loss: 1.0036 - feature_2_loss: 1.0036 - feature_3_loss: 1.0030 - feature_4_loss: 1.0012
+2025-01-14 06:54:37,558 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_9.pt
+2025-01-14 06:54:37,558 - INFO - Early stopping triggered after 9 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:54:37,656] Trial 13 finished with value: 0.9863252765857257 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.1, 'use_bottleneck': False, 'bottleneck_width': 256, 'model_type': 'Boosting', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0005, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:54:37,800 - HyperOptimizer - INFO - Sampled parameters for trial 14:
+2025-01-14 06:54:37,800 - HyperOptimizer - INFO -   hidden_sizes: (32, 32)
+2025-01-14 06:54:37,800 - HyperOptimizer - INFO -   dropout: 0.2
+2025-01-14 06:54:37,800 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:54:37,800 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:54:37,800 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:54:37,801 - HyperOptimizer - INFO -   trans_loss: mmd
+2025-01-14 06:54:37,801 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:54:37,801 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:54:37,801 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:54:37,801 - HyperOptimizer - INFO -   learning_rate: 0.0005
+2025-01-14 06:54:37,801 - HyperOptimizer - INFO -   weight_decay: 0.0001
+2025-01-14 06:54:37,801 - HyperOptimizer - INFO - Initializing model for trial 14
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:54:38,244 - INFO - Starting training...
+2025-01-14 06:54:40,118 - INFO - Epoch 1/10 - train_loss: 1.0082 - val_loss: 1.0255 - feature_0_loss: 1.0069 - feature_1_loss: 1.0093 - feature_2_loss: 1.0091 - feature_3_loss: 1.0086 - feature_4_loss: 1.0070
+2025-01-14 06:54:40,122 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:54:40,125 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:41,997 - INFO - Epoch 2/10 - train_loss: 1.0081 - val_loss: 1.0092 - feature_0_loss: 1.0069 - feature_1_loss: 1.0090 - feature_2_loss: 1.0092 - feature_3_loss: 1.0087 - feature_4_loss: 1.0065
+2025-01-14 06:54:42,001 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:54:42,004 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:43,878 - INFO - Epoch 3/10 - train_loss: 1.0094 - val_loss: 1.0264 - feature_0_loss: 1.0083 - feature_1_loss: 1.0111 - feature_2_loss: 1.0101 - feature_3_loss: 1.0098 - feature_4_loss: 1.0080
+2025-01-14 06:54:43,882 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:54:45,757 - INFO - Epoch 4/10 - train_loss: 1.0082 - val_loss: 1.0288 - feature_0_loss: 1.0071 - feature_1_loss: 1.0093 - feature_2_loss: 1.0093 - feature_3_loss: 1.0088 - feature_4_loss: 1.0066
+2025-01-14 06:54:45,760 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:54:47,632 - INFO - Epoch 5/10 - train_loss: 1.0094 - val_loss: 1.0048 - feature_0_loss: 1.0083 - feature_1_loss: 1.0107 - feature_2_loss: 1.0102 - feature_3_loss: 1.0096 - feature_4_loss: 1.0081
+2025-01-14 06:54:47,637 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:54:47,640 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:49,510 - INFO - Epoch 6/10 - train_loss: 1.0082 - val_loss: 0.9951 - feature_0_loss: 1.0067 - feature_1_loss: 1.0099 - feature_2_loss: 1.0090 - feature_3_loss: 1.0087 - feature_4_loss: 1.0067
+2025-01-14 06:54:49,514 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:54:49,517 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:51,389 - INFO - Epoch 7/10 - train_loss: 1.0087 - val_loss: 1.0124 - feature_0_loss: 1.0073 - feature_1_loss: 1.0100 - feature_2_loss: 1.0096 - feature_3_loss: 1.0093 - feature_4_loss: 1.0074
+2025-01-14 06:54:51,393 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:54:53,267 - INFO - Epoch 8/10 - train_loss: 1.0090 - val_loss: 1.0034 - feature_0_loss: 1.0078 - feature_1_loss: 1.0101 - feature_2_loss: 1.0100 - feature_3_loss: 1.0095 - feature_4_loss: 1.0076
+2025-01-14 06:54:53,271 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_8.pt
+2025-01-14 06:54:55,141 - INFO - Epoch 9/10 - train_loss: 1.0086 - val_loss: 1.0147 - feature_0_loss: 1.0076 - feature_1_loss: 1.0096 - feature_2_loss: 1.0098 - feature_3_loss: 1.0090 - feature_4_loss: 1.0071
+2025-01-14 06:54:55,146 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_9.pt
+2025-01-14 06:54:55,146 - INFO - Early stopping triggered after 9 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:54:55,246] Trial 14 finished with value: 0.9950549545196387 and parameters: {'hidden_sizes': [32, 32], 'dropout': 0.2, 'use_bottleneck': False, 'bottleneck_width': 256, 'model_type': 'Boosting', 'trans_loss': 'mmd', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0005, 'weight_decay': 0.0001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO - Sampled parameters for trial 15:
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   dropout: 0.1
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   bottleneck_width: 512
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   learning_rate: 0.0001
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:54:55,389 - HyperOptimizer - INFO - Initializing model for trial 15
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.1 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:54:55,393 - INFO - Starting training...
+2025-01-14 06:54:57,247 - INFO - Epoch 1/10 - train_loss: 1.0141 - val_loss: 1.0171 - feature_0_loss: 1.0132 - feature_1_loss: 1.0151 - feature_2_loss: 1.0151 - feature_3_loss: 1.0145 - feature_4_loss: 1.0127
+2025-01-14 06:54:57,256 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:54:57,277 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:54:59,136 - INFO - Epoch 2/10 - train_loss: 1.0153 - val_loss: 1.0314 - feature_0_loss: 1.0142 - feature_1_loss: 1.0163 - feature_2_loss: 1.0161 - feature_3_loss: 1.0156 - feature_4_loss: 1.0142
+2025-01-14 06:54:59,143 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:55:00,995 - INFO - Epoch 3/10 - train_loss: 1.0153 - val_loss: 1.0284 - feature_0_loss: 1.0143 - feature_1_loss: 1.0162 - feature_2_loss: 1.0161 - feature_3_loss: 1.0158 - feature_4_loss: 1.0142
+2025-01-14 06:55:01,000 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:55:02,853 - INFO - Epoch 4/10 - train_loss: 1.0148 - val_loss: 1.0127 - feature_0_loss: 1.0135 - feature_1_loss: 1.0158 - feature_2_loss: 1.0158 - feature_3_loss: 1.0151 - feature_4_loss: 1.0136
+2025-01-14 06:55:02,858 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:55:02,863 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:04,713 - INFO - Epoch 5/10 - train_loss: 1.0151 - val_loss: 1.0190 - feature_0_loss: 1.0142 - feature_1_loss: 1.0158 - feature_2_loss: 1.0161 - feature_3_loss: 1.0155 - feature_4_loss: 1.0137
+2025-01-14 06:55:04,718 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:55:06,569 - INFO - Epoch 6/10 - train_loss: 1.0145 - val_loss: 1.0431 - feature_0_loss: 1.0136 - feature_1_loss: 1.0152 - feature_2_loss: 1.0157 - feature_3_loss: 1.0150 - feature_4_loss: 1.0130
+2025-01-14 06:55:06,574 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:55:08,427 - INFO - Epoch 7/10 - train_loss: 1.0151 - val_loss: 1.0250 - feature_0_loss: 1.0139 - feature_1_loss: 1.0168 - feature_2_loss: 1.0157 - feature_3_loss: 1.0154 - feature_4_loss: 1.0137
+2025-01-14 06:55:08,432 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:55:08,433 - INFO - Early stopping triggered after 7 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:55:08,536] Trial 15 finished with value: 1.0127231616240282 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.1, 'use_bottleneck': False, 'bottleneck_width': 512, 'model_type': 'Boosting', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO - Sampled parameters for trial 16:
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   dropout: 0.2
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   learning_rate: 0.0005
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO -   weight_decay: 0.0001
+2025-01-14 06:55:08,683 - HyperOptimizer - INFO - Initializing model for trial 16
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:55:08,687 - INFO - Starting training...
+2025-01-14 06:55:10,552 - INFO - Epoch 1/10 - train_loss: 1.0023 - val_loss: 0.9948 - feature_0_loss: 1.0010 - feature_1_loss: 1.0037 - feature_2_loss: 1.0032 - feature_3_loss: 1.0027 - feature_4_loss: 1.0008
+2025-01-14 06:55:10,556 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:55:10,560 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:12,422 - INFO - Epoch 2/10 - train_loss: 1.0029 - val_loss: 1.0064 - feature_0_loss: 1.0016 - feature_1_loss: 1.0039 - feature_2_loss: 1.0038 - feature_3_loss: 1.0033 - feature_4_loss: 1.0018
+2025-01-14 06:55:12,427 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:55:14,290 - INFO - Epoch 3/10 - train_loss: 1.0040 - val_loss: 1.0022 - feature_0_loss: 1.0027 - feature_1_loss: 1.0051 - feature_2_loss: 1.0052 - feature_3_loss: 1.0046 - feature_4_loss: 1.0027
+2025-01-14 06:55:14,296 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:55:16,158 - INFO - Epoch 4/10 - train_loss: 1.0041 - val_loss: 1.0178 - feature_0_loss: 1.0026 - feature_1_loss: 1.0053 - feature_2_loss: 1.0051 - feature_3_loss: 1.0047 - feature_4_loss: 1.0029
+2025-01-14 06:55:16,168 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:55:16,168 - INFO - Early stopping triggered after 4 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:55:16,266] Trial 16 finished with value: 0.9948191596911504 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.2, 'use_bottleneck': False, 'bottleneck_width': 256, 'model_type': 'Boosting', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0005, 'weight_decay': 0.0001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:55:16,411 - HyperOptimizer - INFO - Sampled parameters for trial 17:
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   hidden_sizes: (64, 64)
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   dropout: 0.3
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   bottleneck_width: 256
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   trans_loss: coral
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   learning_rate: 0.0001
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:55:16,412 - HyperOptimizer - INFO - Initializing model for trial 17
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.3 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:55:16,416 - INFO - Starting training...
+2025-01-14 06:55:18,281 - INFO - Epoch 1/10 - train_loss: 1.0083 - val_loss: 1.0479 - feature_0_loss: 1.0072 - feature_1_loss: 1.0094 - feature_2_loss: 1.0092 - feature_3_loss: 1.0087 - feature_4_loss: 1.0072
+2025-01-14 06:55:18,842 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:55:18,845 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:20,706 - INFO - Epoch 2/10 - train_loss: 1.0097 - val_loss: 1.0078 - feature_0_loss: 1.0085 - feature_1_loss: 1.0109 - feature_2_loss: 1.0108 - feature_3_loss: 1.0103 - feature_4_loss: 1.0080
+2025-01-14 06:55:20,711 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:55:20,714 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:22,577 - INFO - Epoch 3/10 - train_loss: 1.0086 - val_loss: 1.0052 - feature_0_loss: 1.0076 - feature_1_loss: 1.0093 - feature_2_loss: 1.0097 - feature_3_loss: 1.0091 - feature_4_loss: 1.0071
+2025-01-14 06:55:22,582 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:55:22,585 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:24,448 - INFO - Epoch 4/10 - train_loss: 1.0094 - val_loss: 1.0083 - feature_0_loss: 1.0083 - feature_1_loss: 1.0105 - feature_2_loss: 1.0105 - feature_3_loss: 1.0098 - feature_4_loss: 1.0079
+2025-01-14 06:55:24,453 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:55:26,315 - INFO - Epoch 5/10 - train_loss: 1.0099 - val_loss: 1.0239 - feature_0_loss: 1.0086 - feature_1_loss: 1.0114 - feature_2_loss: 1.0106 - feature_3_loss: 1.0104 - feature_4_loss: 1.0085
+2025-01-14 06:55:26,320 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:55:28,184 - INFO - Epoch 6/10 - train_loss: 1.0107 - val_loss: 1.0014 - feature_0_loss: 1.0094 - feature_1_loss: 1.0123 - feature_2_loss: 1.0114 - feature_3_loss: 1.0111 - feature_4_loss: 1.0095
+2025-01-14 06:55:28,188 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:55:28,192 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:30,052 - INFO - Epoch 7/10 - train_loss: 1.0091 - val_loss: 1.0299 - feature_0_loss: 1.0078 - feature_1_loss: 1.0104 - feature_2_loss: 1.0098 - feature_3_loss: 1.0096 - feature_4_loss: 1.0079
+2025-01-14 06:55:30,057 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:55:31,918 - INFO - Epoch 8/10 - train_loss: 1.0086 - val_loss: 1.0049 - feature_0_loss: 1.0078 - feature_1_loss: 1.0096 - feature_2_loss: 1.0095 - feature_3_loss: 1.0090 - feature_4_loss: 1.0073
+2025-01-14 06:55:31,923 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_8.pt
+2025-01-14 06:55:33,786 - INFO - Epoch 9/10 - train_loss: 1.0097 - val_loss: 1.0194 - feature_0_loss: 1.0086 - feature_1_loss: 1.0105 - feature_2_loss: 1.0108 - feature_3_loss: 1.0103 - feature_4_loss: 1.0083
+2025-01-14 06:55:33,791 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_9.pt
+2025-01-14 06:55:33,791 - INFO - Early stopping triggered after 9 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:55:33,890] Trial 17 finished with value: 1.0014108465268061 and parameters: {'hidden_sizes': [64, 64], 'dropout': 0.3, 'use_bottleneck': False, 'bottleneck_width': 256, 'model_type': 'Boosting', 'trans_loss': 'coral', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:55:34,032 - HyperOptimizer - INFO - Sampled parameters for trial 18:
+2025-01-14 06:55:34,032 - HyperOptimizer - INFO -   hidden_sizes: (128, 128)
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   dropout: 0.1
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   use_bottleneck: True
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   bottleneck_width: 128
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   model_type: AdaRNN
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   trans_loss: cosine
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   learning_rate: 0.005
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO -   weight_decay: 0.0001
+2025-01-14 06:55:34,033 - HyperOptimizer - INFO - Initializing model for trial 18
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.1 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:55:34,206 - INFO - Starting training...
+2025-01-14 06:55:36,939 - INFO - Epoch 1/10 - train_loss: 0.8553 - val_loss: 2.3558 - feature_0_loss: 0.8396 - feature_1_loss: 0.8941 - feature_2_loss: 0.8476 - feature_3_loss: 0.8625 - feature_4_loss: 0.8325
+2025-01-14 06:55:36,959 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:55:36,975 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:39,707 - INFO - Epoch 2/10 - train_loss: 0.8608 - val_loss: 2.3940 - feature_0_loss: 0.8459 - feature_1_loss: 0.8993 - feature_2_loss: 0.8533 - feature_3_loss: 0.8659 - feature_4_loss: 0.8394
+2025-01-14 06:55:39,724 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:55:42,456 - INFO - Epoch 3/10 - train_loss: 0.8574 - val_loss: 2.4099 - feature_0_loss: 0.8465 - feature_1_loss: 0.8973 - feature_2_loss: 0.8486 - feature_3_loss: 0.8626 - feature_4_loss: 0.8320
+2025-01-14 06:55:42,474 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:55:45,204 - INFO - Epoch 4/10 - train_loss: 0.8572 - val_loss: 2.3037 - feature_0_loss: 0.8442 - feature_1_loss: 0.8911 - feature_2_loss: 0.8523 - feature_3_loss: 0.8624 - feature_4_loss: 0.8358
+2025-01-14 06:55:45,222 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:55:45,240 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:47,978 - INFO - Epoch 5/10 - train_loss: 0.8556 - val_loss: 2.4242 - feature_0_loss: 0.8406 - feature_1_loss: 0.8974 - feature_2_loss: 0.8469 - feature_3_loss: 0.8595 - feature_4_loss: 0.8335
+2025-01-14 06:55:47,998 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:55:50,728 - INFO - Epoch 6/10 - train_loss: 0.8594 - val_loss: 2.3678 - feature_0_loss: 0.8404 - feature_1_loss: 0.9011 - feature_2_loss: 0.8552 - feature_3_loss: 0.8668 - feature_4_loss: 0.8338
+2025-01-14 06:55:50,748 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:55:53,483 - INFO - Epoch 7/10 - train_loss: 0.8557 - val_loss: 2.5160 - feature_0_loss: 0.8452 - feature_1_loss: 0.8973 - feature_2_loss: 0.8483 - feature_3_loss: 0.8569 - feature_4_loss: 0.8306
+2025-01-14 06:55:53,502 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:55:53,502 - INFO - Early stopping triggered after 7 epochs
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:55:53,649] Trial 18 finished with value: 2.303730817941519 and parameters: {'hidden_sizes': [128, 128], 'dropout': 0.1, 'use_bottleneck': True, 'bottleneck_width': 128, 'model_type': 'AdaRNN', 'trans_loss': 'cosine', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.005, 'weight_decay': 0.0001}. Best is trial 5 with value: 0.9784507166880828.
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (32, 32) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (64, 64) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (128, 128) which is of type tuple.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains (256, 256) which is of type tuple.
+  warnings.warn(message)
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO - Sampled parameters for trial 19:
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   hidden_sizes: (32, 32)
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   dropout: 0.2
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   use_bottleneck: False
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   bottleneck_width: 512
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   model_type: Boosting
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   trans_loss: mmd
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   channel_independence: True
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   batch_size: 32
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   optimizer: AdamW
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   learning_rate: 0.0001
+2025-01-14 06:55:53,809 - HyperOptimizer - INFO -   weight_decay: 0.001
+2025-01-14 06:55:53,810 - HyperOptimizer - INFO - Initializing model for trial 19
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/nn/modules/rnn.py:123: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.2 and num_layers=1
+  warnings.warn(
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/torch/optim/lr_scheduler.py:62: UserWarning: The verbose parameter is deprecated. Please use get_last_lr() to access the learning rate.
+  warnings.warn(
+2025-01-14 06:55:53,815 - INFO - Starting training...
+2025-01-14 06:55:55,993 - INFO - Epoch 1/10 - train_loss: 1.0406 - val_loss: 1.0218 - feature_0_loss: 1.0391 - feature_1_loss: 1.0427 - feature_2_loss: 1.0416 - feature_3_loss: 1.0410 - feature_4_loss: 1.0389
+2025-01-14 06:55:55,997 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_1.pt
+2025-01-14 06:55:56,001 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:55:58,174 - INFO - Epoch 2/10 - train_loss: 1.0410 - val_loss: 1.0185 - feature_0_loss: 1.0394 - feature_1_loss: 1.0428 - feature_2_loss: 1.0419 - feature_3_loss: 1.0414 - feature_4_loss: 1.0392
+2025-01-14 06:55:58,178 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_2.pt
+2025-01-14 06:55:58,181 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:56:00,352 - INFO - Epoch 3/10 - train_loss: 1.0413 - val_loss: 1.0191 - feature_0_loss: 1.0397 - feature_1_loss: 1.0435 - feature_2_loss: 1.0423 - feature_3_loss: 1.0419 - feature_4_loss: 1.0394
+2025-01-14 06:56:00,356 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_3.pt
+2025-01-14 06:56:02,534 - INFO - Epoch 4/10 - train_loss: 1.0412 - val_loss: 1.0315 - feature_0_loss: 1.0397 - feature_1_loss: 1.0433 - feature_2_loss: 1.0420 - feature_3_loss: 1.0416 - feature_4_loss: 1.0394
+2025-01-14 06:56:02,539 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_4.pt
+2025-01-14 06:56:04,712 - INFO - Epoch 5/10 - train_loss: 1.0413 - val_loss: 1.0131 - feature_0_loss: 1.0398 - feature_1_loss: 1.0433 - feature_2_loss: 1.0422 - feature_3_loss: 1.0417 - feature_4_loss: 1.0395
+2025-01-14 06:56:04,755 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_5.pt
+2025-01-14 06:56:04,770 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:56:06,944 - INFO - Epoch 6/10 - train_loss: 1.0406 - val_loss: 1.0312 - feature_0_loss: 1.0389 - feature_1_loss: 1.0425 - feature_2_loss: 1.0416 - feature_3_loss: 1.0409 - feature_4_loss: 1.0391
+2025-01-14 06:56:06,954 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_6.pt
+2025-01-14 06:56:09,130 - INFO - Epoch 7/10 - train_loss: 1.0415 - val_loss: 1.0527 - feature_0_loss: 1.0398 - feature_1_loss: 1.0436 - feature_2_loss: 1.0424 - feature_3_loss: 1.0419 - feature_4_loss: 1.0398
+2025-01-14 06:56:09,143 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_7.pt
+2025-01-14 06:56:11,317 - INFO - Epoch 8/10 - train_loss: 1.0412 - val_loss: 1.0087 - feature_0_loss: 1.0396 - feature_1_loss: 1.0431 - feature_2_loss: 1.0420 - feature_3_loss: 1.0416 - feature_4_loss: 1.0394
+2025-01-14 06:56:11,321 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_8.pt
+2025-01-14 06:56:11,324 - INFO - Saved checkpoint to checkpoints/best_model.pt
+2025-01-14 06:56:13,500 - INFO - Epoch 9/10 - train_loss: 1.0414 - val_loss: 1.0189 - feature_0_loss: 1.0401 - feature_1_loss: 1.0431 - feature_2_loss: 1.0425 - feature_3_loss: 1.0417 - feature_4_loss: 1.0397
+2025-01-14 06:56:13,505 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_9.pt
+2025-01-14 06:56:15,676 - INFO - Epoch 10/10 - train_loss: 1.0407 - val_loss: 1.0394 - feature_0_loss: 1.0390 - feature_1_loss: 1.0427 - feature_2_loss: 1.0420 - feature_3_loss: 1.0413 - feature_4_loss: 1.0387
+2025-01-14 06:56:15,681 - INFO - Saved checkpoint to checkpoints/checkpoint_epoch_10.pt
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+[I 2025-01-14 06:56:15,789] Trial 19 finished with value: 1.0086895250357115 and parameters: {'hidden_sizes': [32, 32], 'dropout': 0.2, 'use_bottleneck': False, 'bottleneck_width': 512, 'model_type': 'Boosting', 'trans_loss': 'mmd', 'batch_size': 32, 'optimizer': 'AdamW', 'learning_rate': 0.0001, 'weight_decay': 0.001}. Best is trial 5 with value: 0.9784507166880828.
+2025-01-14 06:56:15,794 - HyperOptimizer - INFO - Optimization completed
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [32, 32] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [64, 64] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [128, 128] which is of type list.
+  warnings.warn(message)
+/home/work/anaconda3/envs/CD_survey/lib/python3.10/site-packages/optuna/distributions.py:524: UserWarning: Choices for a categorical distribution should be a tuple of None, bool, int, float and str for persistent storage but contains [256, 256] which is of type list.
+  warnings.warn(message)
+2025-01-14 06:56:15,810 - HyperOptimizer - INFO - Best trial: 5
+2025-01-14 06:56:15,826 - HyperOptimizer - INFO - Best validation loss: 0.9785
+2025-01-14 06:56:15,826 - HyperOptimizer - INFO - 
+Best parameters:
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - hidden_sizes: [64, 64]
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - dropout: 0.2
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - use_bottleneck: False
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - bottleneck_width: 256
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - model_type: Boosting
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - trans_loss: cosine
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - batch_size: 32
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - optimizer: AdamW
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - learning_rate: 0.0001
+2025-01-14 06:56:15,841 - HyperOptimizer - INFO - weight_decay: 0.0001

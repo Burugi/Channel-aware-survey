@@ -10,3 +10,55 @@ down_sampling_method: "avg"
 embed: "timeF"
 freq: "h"
 dropout: 0.1
+
+
+#######################################################
+#######################################################
+
+# ## BASE configuration
+# ## input 36 / prediction 24 / CD
+# configs/model/timemixer.yaml
+model_type: "timemixer"
+d_model: 256
+d_ff: 4096
+n_layers: 3
+top_k: 5
+down_sampling_window: 1
+down_sampling_layers: 2
+down_sampling_method: "avg"
+embed: "timeF"
+freq: "h"
+dropout: 0.3
+
+optimizer:
+  name: "AdamW"
+  params:
+    lr: 0.0005
+    weight_decay: 0.001
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+#######################################################
+#######################################################
+
+# ## BASE configuration
+# ## input 36 / prediction 24 / CI
+# configs/model/timemixer.yaml
+model_type: "timemixer"
+d_model: 512
+d_ff: 2048
+n_layers: 3
+top_k: 5
+down_sampling_window: 2
+down_sampling_layers: 2
+down_sampling_method: "avg"
+embed: "timeF"
+freq: "h"
+dropout: 0.3
+
+optimizer:
+  name: "AdamW"
+  params:
+    lr: 0.0001
+    weight_decay: 0.01
+    betas: [0.9, 0.999]
+    eps: 1.0e-8

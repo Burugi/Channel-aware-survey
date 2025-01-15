@@ -39,3 +39,100 @@ scheduler:
 # Loss
 loss: "MSELoss"
 loss_params: {}
+
+
+#######################################################
+#######################################################
+
+## BASE configuration
+## input 36 / prediction 24 / CD
+
+# configs/model/autoformer.yaml
+# model_type: "autoformer"
+
+# # Model Architecture
+# d_model: 512
+# n_heads: 8
+# e_layers: 2
+# d_layers: 2
+# d_ff: 2048
+# moving_avg: 25
+# factor: 5
+# embed: "fixed"
+# freq: "h"
+# activation: "gelu"
+# output_attention: false
+
+# # Training
+# dropout: 0.3
+
+# # Optimizer:
+# optimizer:
+#   name: "Adam"
+#   params:
+#     lr: 0.005
+#     weight_decay: 0.001
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+
+# # Scheduler
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+
+# # Loss
+# loss: "MSELoss"
+# loss_params: {}
+
+#######################################################
+#######################################################
+
+## BASE configuration
+## input 36 / prediction 24 / CI
+
+# configs/model/autoformer.yaml
+# model_type: "autoformer"
+
+# # Model Architecture
+# d_model: 256
+# n_heads: 8
+# e_layers: 3
+# d_layers: 2
+# d_ff: 1024
+# moving_avg: 25
+# factor: 5
+# embed: "fixed"
+# freq: "h"
+# activation: "gelu"
+# output_attention: false
+
+# # Training
+# dropout: 0.3
+
+# # Optimizer:
+# optimizer:
+#   name: "Adam"
+#   params:
+#     lr: 0.0005
+#     weight_decay: 0.01
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+
+# # Scheduler
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+
+# # Loss
+# loss: "MSELoss"
+# loss_params: {}

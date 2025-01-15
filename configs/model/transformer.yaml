@@ -2,19 +2,19 @@
 model_type: "transformer"
 
 # Model architecture
-d_model: 128
-nhead: 8
-num_encoder_layers: 4
+d_model: 64
+nhead: 4
+num_encoder_layers: 2
 num_decoder_layers: 4
-dim_feedforward: 512
+dim_feedforward: 1024
 dropout: 0.1
 channel_independence: false  # Channel independence 모드 설정
 
 # Optimizer settings
 optimizer:
-  name: "Adam"
+  name: "AdamW"
   params:
-    lr: 0.001
+    lr: 0.0001
     weight_decay: 0.0001
     betas: [0.9, 0.999]
     eps: 1.0e-8
@@ -32,3 +32,85 @@ scheduler:
 # Loss settings
 loss: "MSELoss"
 loss_params: {}
+
+#######################################################
+#######################################################
+
+# ## BASE configuration
+# ## input 36 / prediction 24 / CD
+
+# configs/model/transformer.yaml
+# model_type: "transformer"
+
+# # Model architecture
+# d_model: 64
+# nhead: 4
+# num_encoder_layers: 2
+# num_decoder_layers: 4
+# dim_feedforward: 1024
+# dropout: 0.1
+# channel_independence: false  # Channel independence 모드 설정
+
+# # Optimizer settings
+# optimizer:
+#   name: "AdamW"
+#   params:
+#     lr: 0.0001
+#     weight_decay: 0.0001
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+
+# # Scheduler settings
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+
+# # Loss settings
+# loss: "MSELoss"
+# loss_params: {}
+
+#######################################################
+#######################################################
+
+# ## BASE configuration
+# ## input 36 / prediction 24 / CI
+
+# # configs/model/transformer.yaml
+# model_type: "transformer"
+
+# # Model architecture
+# d_model: 64
+# nhead: 4
+# num_encoder_layers: 3
+# num_decoder_layers: 2
+# dim_feedforward: 1024
+# dropout: 0.1
+# channel_independence: false  # Channel independence 모드 설정
+
+# # Optimizer settings
+# optimizer:
+#   name: "AdamW"
+#   params:
+#     lr: 0.0005
+#     weight_decay: 0.001
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+
+# # Scheduler settings
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+
+# # Loss settings
+# loss: "MSELoss"
+# loss_params: {}

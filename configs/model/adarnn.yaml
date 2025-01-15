@@ -2,21 +2,21 @@
 model_type: "adarnn"
 
 # Model Architecture
-hidden_sizes: [64, 64]
+hidden_sizes: [128, 128]
 use_bottleneck: false
-bottleneck_width: 256
-model_type: "AdaRNN"  # 'AdaRNN' or 'Boosting'
+bottleneck_width: 128
+model_type: "Boosting"  # 'AdaRNN' or 'Boosting'
 trans_loss: "mmd"     # 'mmd', 'coral', 'cosine', etc.
 
 # Training
-dropout: 0.1
+dropout: 0.2
 
 # Optimizer
 optimizer:
-  name: "Adam"
+  name: "AdamW"
   params:
-    lr: 0.001
-    weight_decay: 0.0001
+    lr: 0.0005
+    weight_decay: 0.001
     betas: [0.9, 0.999]
     eps: 1.0e-8
 
@@ -33,3 +33,87 @@ scheduler:
 # Loss
 loss: "MSELoss"
 loss_params: {}
+
+
+## BASE configuration
+## input 36 / prediction 24 / CD
+
+# # configs/model/adarnn.yaml
+# model_type: "adarnn"
+
+# # Model Architecture
+# hidden_sizes: [128, 128]
+# use_bottleneck: false
+# bottleneck_width: 128
+# model_type: "Boosting"  # 'AdaRNN' or 'Boosting'
+# trans_loss: "mmd"     # 'mmd', 'coral', 'cosine', etc.
+
+# # Training
+# dropout: 0.2
+
+# # Optimizer
+# optimizer:
+#   name: "AdamW"
+#   params:
+#     lr: 0.0005
+#     weight_decay: 0.001
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+
+# # Scheduler
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+
+# # Loss
+# loss: "MSELoss"
+# loss_params: {}
+
+
+#######################################################
+#######################################################
+
+## BASE configuration
+## input 36 / prediction 24 / CI
+
+# # configs/model/adarnn.yaml
+# model_type: "adarnn"
+
+# # Model Architecture
+# hidden_sizes: [64, 64]
+# use_bottleneck: false
+# bottleneck_width: 256
+# model_type: "Boosting"  # 'AdaRNN' or 'Boosting'
+# trans_loss: "cosine"     # 'mmd', 'coral', 'cosine', etc.
+
+# # Training
+# dropout: 0.2
+
+# # Optimizer
+# optimizer:
+#   name: "AdamW"
+#   params:
+#     lr: 0.0001
+#     weight_decay: 0.0001
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+
+# # Scheduler
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+
+# # Loss
+# loss: "MSELoss"
+# loss_params: {}
+

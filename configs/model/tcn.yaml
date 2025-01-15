@@ -1,13 +1,13 @@
 # configs/model/tcn.yaml
 model_type: "tcn"
-num_channels: [32, 64, 128]
-kernel_size: 3
-dropout: 0.2
+num_channels: [256]
+kernel_size: 4
+dropout: 0.1
 optimizer:
-  name: "Adam"
+  name: "AdamW"
   params:
-    lr: 0.001
-    weight_decay: 0.0001
+    lr: 0.0001
+    weight_decay: 0.0005
     betas: [0.9, 0.999]
     eps: 1.0e-8
 scheduler:
@@ -20,3 +20,62 @@ scheduler:
     verbose: true
 loss: "MSELoss"
 loss_params: {}
+
+
+#######################################################
+#######################################################
+
+## BASE configuration
+## input 36 / prediction 24 / CD
+
+# # configs/model/tcn.yaml
+# model_type: "tcn"
+# num_channels: [256]
+# kernel_size: 4
+# dropout: 0.1
+# optimizer:
+#   name: "AdamW"
+#   params:
+#     lr: 0.0001
+#     weight_decay: 0.0005
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+# loss: "MSELoss"
+# loss_params: {}
+
+#######################################################
+#######################################################
+
+# ## BASE configuration
+# ## input 36 / prediction 24 / CI
+
+# # configs/model/tcn.yaml
+# model_type: "tcn"
+# num_channels: [64]
+# kernel_size: 4
+# dropout: 0.1
+# optimizer:
+#   name: "AdamW"
+#   params:
+#     lr: 0.0001
+#     weight_decay: 0.005
+#     betas: [0.9, 0.999]
+#     eps: 1.0e-8
+# scheduler:
+#   name: "ReduceLROnPlateau"
+#   params:
+#     mode: "min"
+#     factor: 0.5
+#     patience: 10
+#     min_lr: 1.0e-6
+#     verbose: true
+# loss: "MSELoss"
+# loss_params: {}

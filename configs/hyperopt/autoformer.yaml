@@ -1,0 +1,18 @@
+# configs/hyperopt/informer.yaml
+model_params:
+  d_model: [256, 512, 1024]
+  n_heads: [4, 8, 16]
+  e_layers: [2, 3, 4]
+  d_layers: [1, 2, 3]
+  d_ff: [512, 1024, 2048]
+  factor: [3, 5, 7]
+  dropout: [0.1, 0.2, 0.3, 0.4]
+  attn: ["prob", "full"]
+  distil: [true, false]
+  mix: [true, false]
+
+training_params:
+  batch_size: [32]
+  optimizer: ['AdamW']
+  learning_rate: [0.0001, 0.0005, 0.001, 0.005]
+  weight_decay: [0.0001, 0.001, 0.01]
