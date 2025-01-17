@@ -5,7 +5,7 @@ from typing import Dict, Union, Tuple
 import logging
 import numpy as np
 
-class BaseTimeSeriesModel(nn.Module, ABC):
+class BaseTimeSeriesModel(nn.Module):
     def __init__(self, config: dict):
         super().__init__()
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -21,12 +21,37 @@ class BaseTimeSeriesModel(nn.Module, ABC):
         self.channel_independence = self.config.get('channel_independence', False)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
-        # 모델 초기화
+        # CI mode에서 feature별 독립적인 모델 구축을 위한 메서드
         self._build_model()
         self.to(self.device)
         
         # optimizer, scheduler, loss function 설정
         self._setup_training()
+
+    def forward(self, x):
+        """순전파"""
+        if self.channel_independence:
+            batch_size = x.size(0)
+            outputs = []
+            
+            # 각 feature별로 독립적 처리
+            for i in range(self.base_features):
+                feature_input = x[..., i:i+1]  # (batch_size, seq_len, 1)
+                feature_output = self._forward_single_feature(feature_input, i)  # (batch_size, pred_len, 1)
+                outputs.append(feature_output)
+            
+            # 모든 feature의 출력을 결합
+            return torch.cat(outputs, dim=-1)  # (batch_size, pred_len, num_features)
+        else:
+            return self._forward_all_features(x)
+
+    def _forward_single_feature(self, x, feature_idx):
+        """CI mode에서 단일 feature 처리 (하위 클래스에서 구현)"""
+        raise NotImplementedError
+
+    def _forward_all_features(self, x):
+        """CD mode에서 전체 feature 처리 (하위 클래스에서 구현)"""
+        raise NotImplementedError
 
     def _setup_training(self):
         """optimizer, scheduler, loss function 설정"""
@@ -67,10 +92,11 @@ class BaseTimeSeriesModel(nn.Module, ABC):
         
         if self.channel_independence:
             # Channel independence mode에서는 각 feature별 loss를 평균
+            # 평균이 아니고 그냥 합으로 하기 
             loss = 0
             for i in range(self.base_features):
                 loss += self.loss_fn(y_pred[..., i], y[..., i])
-            loss = loss / self.base_features
+            # loss = loss / self.base_features
         else:
             loss = self.loss_fn(y_pred, y)
         
@@ -89,11 +115,7 @@ class BaseTimeSeriesModel(nn.Module, ABC):
     def _build_model(self):
         """모델 아키텍처 구축 (하위 클래스에서 구현)"""
         pass
-        
-    @abstractmethod
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """순전파 (하위 클래스에서 구현)"""
-        pass
+
     
     def validation_step(self, batch: Tuple[torch.Tensor, torch.Tensor]) -> Dict[str, float]:
         """단일 검증 스텝"""
@@ -108,7 +130,7 @@ class BaseTimeSeriesModel(nn.Module, ABC):
                 loss = 0
                 for i in range(self.base_features):
                     loss += self.loss_fn(y_pred[..., i], y[..., i])
-                loss = loss / self.base_features
+                # loss = loss / self.base_features
             else:
                 loss = self.loss_fn(y_pred, y)
             

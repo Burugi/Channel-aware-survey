@@ -31,7 +31,7 @@ class TimeSeriesVisualizer:
         feature_names: List[str],
         scaler=None,
         timestamps: Optional[np.ndarray] = None,
-        channel_independence: bool = False,
+        channel_independence: bool = False,  # 파라미터는 유지하되 사용하지 않음
         title: str = "Predictions vs Actual Values",
         filename: Optional[str] = None
     ):
@@ -52,65 +52,25 @@ class TimeSeriesVisualizer:
             # 2D -> 3D
             y_true = y_true_2d.reshape(orig_shape)
             y_pred = y_pred_2d.reshape(orig_shape)
-            
-        # OT feature만 선택
-        y_true = y_true[..., [ot_idx]]
-        y_pred = y_pred[..., [ot_idx]]
-        feature_names = ['OT']
-        n_features = 1
         
-        # 배치 차원에 대한 평균과 표준편차 계산
-        y_true_mean = np.mean(y_true, axis=0)
-        y_pred_mean = np.mean(y_pred, axis=0)
-        y_true_std = np.std(y_true, axis=0)
-        y_pred_std = np.std(y_pred, axis=0)
+        # 첫 번째 샘플의 OT feature 선택
+        y_true_sample = y_true[0, :, ot_idx]  # shape: (pred_len,)
+        y_pred_sample = y_pred[0, :, ot_idx]  # shape: (pred_len,)
         
-        if channel_independence:
-            # 각 feature별로 subplot 생성
-            fig, axes = plt.subplots(n_features, 1, figsize=(12, 4*n_features))
-            if n_features == 1:
-                axes = [axes]
-                
-            for i, (ax, feature) in enumerate(zip(axes, feature_names)):
-                x = range(len(y_true_mean)) if timestamps is None else timestamps
-                
-                # 실제값과 신뢰구간
-                ax.plot(x, y_true_mean[:, i], color='#2ecc71', label='Actual')
-                ax.fill_between(x, 
-                              y_true_mean[:, i] - y_true_std[:, i],
-                              y_true_mean[:, i] + y_true_std[:, i],
-                              color='#2ecc71', alpha=0.2)
-                
-                # 예측값과 신뢰구간
-                ax.plot(x, y_pred_mean[:, i], color='#e74c3c', 
-                       label='Predicted', linestyle='--')
-                ax.fill_between(x,
-                              y_pred_mean[:, i] - y_pred_std[:, i],
-                              y_pred_mean[:, i] + y_pred_std[:, i],
-                              color='#e74c3c', alpha=0.2)
-                
-                ax.set_title(f'{feature}')
-                ax.set_xlabel('Time Steps')
-                ax.set_ylabel('Value')
-                ax.grid(True, alpha=0.3)
-                ax.legend(loc='upper right')
-        else:
-            # 모든 feature를 하나의 그래프에 표시
-            fig, ax = plt.subplots(figsize=(12, 6))
-            x = range(len(y_true_mean)) if timestamps is None else timestamps
-            
-            colors = ['#2ecc71', '#e74c3c', '#3498db', '#f39c12', '#9b59b6']
-            for i, feature in enumerate(feature_names):
-                color = colors[i % len(colors)]
-                ax.plot(x, y_true_mean[:, i], color=color, 
-                       label=f'Actual ({feature})')
-                ax.plot(x, y_pred_mean[:, i], color=color, linestyle='--',
-                       label=f'Predicted ({feature})')
-            
-            ax.set_title('All Features')
-            ax.set_xlabel('Time Steps')
-            ax.set_ylabel('Value')
-            ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+        # 시각화
+        fig, ax = plt.subplots(figsize=(12, 6))
+        x = range(len(y_true_sample)) if timestamps is None else timestamps
+        
+        # 실제값과 예측값 플롯
+        ax.plot(x, y_true_sample, color='#2ecc71', label='Actual', marker='o')
+        ax.plot(x, y_pred_sample, color='#e74c3c', label='Predicted', 
+            linestyle='--', marker='x')
+        
+        ax.set_title('Occupancy Level (OT) - Single Sequence Comparison')
+        ax.set_xlabel('Time Steps')
+        ax.set_ylabel('Value')
+        ax.grid(True, alpha=0.3)
+        ax.legend(loc='upper right')
         
         plt.suptitle(title, y=1.02)
         plt.tight_layout()
@@ -120,6 +80,13 @@ class TimeSeriesVisualizer:
             plt.close()
         else:
             plt.show()
+
+        # 추가로 MSE, MAE 등의 오차 지표를 계산하여 출력
+        mse = np.mean((y_true_sample - y_pred_sample) ** 2)
+        mae = np.mean(np.abs(y_true_sample - y_pred_sample))
+        print(f"Single Sequence Metrics:")
+        print(f"MSE: {mse:.4f}")
+        print(f"MAE: {mae:.4f}")
             
     def plot_training_history(
         self,

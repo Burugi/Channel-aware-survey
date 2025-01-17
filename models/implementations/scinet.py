@@ -7,141 +7,208 @@ from models.base_model import BaseTimeSeriesModel
 from layers.scinet import EncoderTree
 
 class SCINetModel(BaseTimeSeriesModel):
-    """SCINet Model for Time Series Forecasting"""
-    
     def _build_model(self):
         """모델 아키텍처 구축"""
         # 기본 설정값 정의
         self.hid_size = self.config.get('hidden_size', 1)
-        self.num_levels = self.config.get('num_levels', 3)
-        self.groups = self.config.get('groups', 1)
+        
+        # input_len을 고려하여 num_levels 설정
+        max_levels = int(np.log2(self.input_len))
+        default_levels = min(3, max_levels)
+        self.num_levels = min(self.config.get('num_levels', default_levels), max_levels)
+        
         self.kernel = self.config.get('kernel', 5)
         self.dropout = self.config.get('dropout', 0.5)
         self.positional_encoding = self.config.get('positional_encoding', True)
         self.RIN = self.config.get('RIN', False)
-        self.channel_independence = self.config.get('channel_independence', False)
         
-        # Channel independence에 따른 입출력 차원 설정
-        self.enc_in = 1 if self.channel_independence else self.num_features
-        self.dec_out = 1 if self.channel_independence else self.base_features
+        # feature 차원 설정 수정
+        if self.channel_independence:
+            self.in_planes = 1
+            self.groups = 1
+            self.out_planes = 1
+        else:
+            self.in_planes = self.base_features  # num_features 대신 base_features 사용
+            config_groups = self.config.get('groups', 1)
+            if config_groups > self.in_planes:
+                self.groups = self.in_planes
+            else:
+                self.groups = config_groups if self.in_planes % config_groups == 0 else 1
+            self.out_planes = self.base_features
         
-        # Encoder Tree
-        self.encoder = EncoderTree(
-            in_planes=self.enc_in,
-            num_levels=self.num_levels,
-            kernel_size=self.kernel,
-            dropout=self.dropout,
-            groups=self.groups,
-            hidden_size=self.hid_size,
-            INN=True
-        )
-        
-        # Projection layers
-        self.projection_time = nn.Linear(self.input_len, self.pred_len)
-        
-        if not self.channel_independence and self.num_features > 1:
-            self.projection_feat = nn.Linear(self.num_features, self.base_features)
-        
-        # Positional Encoding
-        if self.positional_encoding:
-            self.pe_hidden_size = self.enc_in + (self.enc_in % 2)
-            num_timescales = self.pe_hidden_size // 2
-            max_timescale = 10000.0
-            min_timescale = 1.0
+        if self.channel_independence:
+            # Feature별 독립적인 모델 구성
+            self.feature_encoders = nn.ModuleList([
+                EncoderTree(
+                    in_planes=self.in_planes,
+                    num_levels=self.num_levels,
+                    kernel_size=self.kernel,
+                    dropout=self.dropout,
+                    groups=1,
+                    hidden_size=self.hid_size,
+                    INN=True
+                ) for _ in range(self.base_features)
+            ])
             
-            log_timescale_increment = math.log(max_timescale / min_timescale) / max(num_timescales - 1, 1)
-            inv_timescales = min_timescale * torch.exp(
-                torch.arange(num_timescales, dtype=torch.float32) * -log_timescale_increment
+            self.feature_projections = nn.ModuleList([
+                nn.Linear(self.input_len, self.pred_len)
+                for _ in range(self.base_features)
+            ])
+            
+            # RIN parameters per feature
+            if self.RIN:
+                self.feature_affine_weights = nn.ParameterList([
+                    nn.Parameter(torch.ones(1, 1, 1))
+                    for _ in range(self.base_features)
+                ])
+                self.feature_affine_biases = nn.ParameterList([
+                    nn.Parameter(torch.zeros(1, 1, 1))
+                    for _ in range(self.base_features)
+                ])
+        else:
+            # Channel dependence mode
+            self.encoder = EncoderTree(
+                in_planes=self.in_planes,
+                num_levels=self.num_levels,
+                kernel_size=self.kernel,
+                dropout=self.dropout,
+                groups=self.groups,
+                hidden_size=self.hid_size,
+                INN=True
             )
-            self.register_buffer('inv_timescales', inv_timescales)
-        
-        # RevIN
-        if self.RIN:
-            self.affine_weight = nn.Parameter(torch.ones(1, 1, self.enc_in))
-            self.affine_bias = nn.Parameter(torch.zeros(1, 1, self.enc_in))
             
-    def get_position_encoding(self, x):
+            self.projection = nn.Linear(self.input_len, self.pred_len)
+            
+            if self.RIN:
+                self.affine_weight = nn.Parameter(torch.ones(1, 1, self.in_planes))
+                self.affine_bias = nn.Parameter(torch.zeros(1, 1, self.in_planes))
+                
+        # Positional encoding setup
+        if self.positional_encoding:
+            if self.channel_independence:
+                self.feature_pe_hidden_sizes = [1 + (1 % 2) for _ in range(self.base_features)]
+                self.feature_inv_timescales = nn.ParameterList([
+                    self._create_inv_timescales(1) for _ in range(self.base_features)
+                ])
+            else:
+                self.pe_hidden_size = self.in_planes + (self.in_planes % 2)
+                self.inv_timescales = self._create_inv_timescales(self.in_planes)
+
+    def _create_inv_timescales(self, dim):
+        """Create inverse timescales for positional encoding"""
+        num_timescales = (dim + (dim % 2)) // 2
+        max_timescale = 10000.0
+        min_timescale = 1.0
+        
+        log_timescale_increment = math.log(max_timescale / min_timescale) / max(num_timescales - 1, 1)
+        inv_timescales = min_timescale * torch.exp(
+            torch.arange(num_timescales, dtype=torch.float32) * -log_timescale_increment
+        )
+        return nn.Parameter(inv_timescales, requires_grad=False)
+
+    def _get_position_encoding(self, x, feature_idx=None):
         """위치 인코딩 생성"""
         if not self.positional_encoding:
             return 0
             
         max_length = x.size(1)
         position = torch.arange(max_length, dtype=torch.float32, device=x.device)
-        scaled_time = position.unsqueeze(1) * self.inv_timescales.unsqueeze(0)
-        signal = torch.cat([torch.sin(scaled_time), torch.cos(scaled_time)], dim=1)
-        signal = F.pad(signal, (0, 0, 0, self.pe_hidden_size % 2))
-        signal = signal.view(1, max_length, self.pe_hidden_size)
-        
-        return signal[:, :, :self.enc_in]
-            
-    def forward(self, x):
-        """순전파"""
-        original_batch_size = x.size(0)
         
         if self.channel_independence:
-            # Reshape for channel independence
-            x = x.permute(0, 2, 1).contiguous()  # (batch_size, num_features, seq_len)
-            x = x.reshape(-1, x.size(-1), 1)     # (batch_size * num_features, seq_len, 1)
+            inv_timescales = self.feature_inv_timescales[feature_idx]
+            pe_hidden_size = self.feature_pe_hidden_sizes[feature_idx]
+        else:
+            inv_timescales = self.inv_timescales
+            pe_hidden_size = self.pe_hidden_size
+            
+        scaled_time = position.unsqueeze(1) * inv_timescales.unsqueeze(0)
+        signal = torch.cat([torch.sin(scaled_time), torch.cos(scaled_time)], dim=1)
+        signal = F.pad(signal, (0, 0, 0, pe_hidden_size % 2))
+        signal = signal.view(1, max_length, pe_hidden_size)
         
-        # RevIN
+        return signal
+
+    def _forward_single_feature(self, x, feature_idx):
+        """CI mode: 단일 feature 처리"""
+        # RIN 적용
+        if self.RIN:
+            means = x.mean(1, keepdim=True).detach()
+            x = x - means
+            stdev = torch.sqrt(torch.var(x, dim=1, keepdim=True, unbiased=False) + 1e-5)
+            x = x / stdev
+            x = x * self.feature_affine_weights[feature_idx] + self.feature_affine_biases[feature_idx]
+
+        # Positional encoding
+        if self.positional_encoding:
+            pe = self._get_position_encoding(x, feature_idx)
+            if pe.shape[2] > x.shape[2]:
+                x = x + pe[:, :, :-1]
+            else:
+                x = x + pe
+
+        # Encoder tree
+        x = self.feature_encoders[feature_idx](x)
+        
+        # Projection
+        x = x.permute(0, 2, 1)
+        x = self.feature_projections[feature_idx](x)
+        x = x.permute(0, 2, 1)
+
+        # Reverse RIN
+        if self.RIN:
+            x = x - self.feature_affine_biases[feature_idx]
+            x = x / (self.feature_affine_weights[feature_idx] + 1e-10)
+            x = x * stdev
+            x = x + means
+
+        return x
+
+    def _forward_all_features(self, x):
+        """CD mode: 전체 feature 처리"""
+        # RIN 적용
         if self.RIN:
             means = x.mean(1, keepdim=True).detach()
             x = x - means
             stdev = torch.sqrt(torch.var(x, dim=1, keepdim=True, unbiased=False) + 1e-5)
             x = x / stdev
             x = x * self.affine_weight + self.affine_bias
-            
-        # Positional Encoding
-        x = x + self.get_position_encoding(x)
-        
-        # Encoder
-        res = x
+
+        # Positional encoding
+        if self.positional_encoding:
+            pe = self._get_position_encoding(x)
+            if pe.shape[2] > x.shape[2]:
+                x = x + pe[:, :, :-1]
+            else:
+                x = x + pe
+
+        # Encoder tree
         x = self.encoder(x)
-        x = x + res  # Skip connection
         
-        # Project time dimension
-        x = x.transpose(1, 2)  # [batch, feature, time]
-        x = self.projection_time(x)  # [batch, feature, pred_len]
-        x = x.transpose(1, 2)  # [batch, pred_len, feature]
-        
-        if self.channel_independence:
-            # Reshape back to original dimensions
-            x = x.reshape(original_batch_size, self.base_features, self.pred_len, -1)
-            x = x.squeeze(-1).permute(0, 2, 1)  # [batch, pred_len, num_features]
-        else:
-            # Project feature dimension if needed
-            if self.num_features > 1:
-                x = self.projection_feat(x)
-        
-        # Reverse RevIN
+        # Projection
+        x = x.permute(0, 2, 1)
+        x = self.projection(x)
+        x = x.permute(0, 2, 1)
+
+        # Reverse RIN
         if self.RIN:
             x = x - self.affine_bias
             x = x / (self.affine_weight + 1e-10)
             x = x * stdev
             x = x + means
-        
+
         return x
 
-    def training_step(self, batch):
-        """단일 학습 스텝"""
-        x, y = batch
-        x = x.to(self.device).float()
-        y = y.to(self.device).float()
-        
-        # 순전파
-        y_pred = self(x)
-        
+    def forward(self, x):
+        """순전파"""
         if self.channel_independence:
-            # Channel independence mode에서는 각 feature별 loss를 평균
-            loss = 0
-            feature_losses = {}
+            outputs = []
             for i in range(self.base_features):
-                feature_loss = self.loss_fn(y_pred[..., i], y[..., i])
-                loss += feature_loss
-                feature_losses[f'feature_{i}'] = feature_loss.item()
-            loss = loss / self.base_features
-            return {'loss': loss.item(), 'feature_losses': feature_losses}
+                feature_input = x[..., i:i+1]
+                out = self._forward_single_feature(feature_input, i)
+                outputs.append(out)
+            
+            predictions = torch.cat(outputs, dim=-1)  # (batch_size, pred_len, base_features)
         else:
-            # Channel dependence mode에서는 전체 feature에 대한 단일 loss
-            loss = self.loss_fn(y_pred, y)
-            return {'loss': loss.item()}
+            predictions = self._forward_all_features(x)  # (batch_size, pred_len, base_features)
+        
+        return predictions

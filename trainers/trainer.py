@@ -145,7 +145,7 @@ class Trainer:
         return torch.utils.data.DataLoader(
             dataset,
             batch_size=self.batch_size,
-            shuffle=True
+            shuffle=False
         )
     
     def _visualize_predictions(self, epoch: int, batch_data: Tuple[torch.Tensor, torch.Tensor]):

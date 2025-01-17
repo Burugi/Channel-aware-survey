@@ -46,58 +46,68 @@ class TCNModel(BaseTimeSeriesModel):
         self.num_channels = self.config.get('num_channels', [32, 64, 128])
         self.kernel_size = self.config.get('kernel_size', 3)
         self.dropout = self.config.get('dropout', 0.2)
-        self.channel_independence = self.config.get('channel_independence', False)
         
-        # 입력/출력 차원 설정
-        in_features = 1 if self.channel_independence else self.num_features
-        out_features = 1 if self.channel_independence else self.base_features
-        
+        if self.channel_independence:
+            # 각 feature별 독립적인 TCN layers와 출력 레이어
+            self.feature_tcns = nn.ModuleList([
+                self._build_tcn_layers(input_size=1)  # 단일 feature input
+                for _ in range(self.base_features)
+            ])
+            
+            self.feature_fcs = nn.ModuleList([
+                nn.Sequential(
+                    nn.Linear(self.num_channels[-1], self.num_channels[-1] // 2),
+                    nn.ReLU(),
+                    nn.Dropout(self.dropout),
+                    nn.Linear(self.num_channels[-1] // 2, 1)  # 단일 feature 출력
+                )
+                for _ in range(self.base_features)
+            ])
+        else:
+            # Channel dependence mode
+            self.tcn = self._build_tcn_layers(input_size=self.num_features)
+            self.fc = nn.Sequential(
+                nn.Linear(self.num_channels[-1], self.num_channels[-1] // 2),
+                nn.ReLU(),
+                nn.Dropout(self.dropout),
+                nn.Linear(self.num_channels[-1] // 2, self.base_features)
+            )
+    
+    def _build_tcn_layers(self, input_size):
+        """TCN layers 구축"""
         layers = []
         num_levels = len(self.num_channels)
         
-        # TCN layers 구축
         for i in range(num_levels):
             dilation_size = 2 ** i
-            in_channels = in_features if i == 0 else self.num_channels[i-1]
+            in_channels = input_size if i == 0 else self.num_channels[i-1]
             out_channels = self.num_channels[i]
             
             layers.append(
                 TemporalBlock(
-                    in_channels, out_channels, self.kernel_size,
-                    stride=1, dilation=dilation_size,
+                    n_inputs=in_channels,
+                    n_outputs=out_channels,
+                    kernel_size=self.kernel_size,
+                    stride=1,
+                    dilation=dilation_size,
                     padding=(self.kernel_size-1) * dilation_size,
                     dropout=self.dropout
                 )
             )
         
-        self.tcn = nn.Sequential(*layers)
-        
-        # 출력 레이어
-        self.fc = nn.Sequential(
-            nn.Linear(self.num_channels[-1], self.num_channels[-1] // 2),
-            nn.ReLU(),
-            nn.Dropout(self.dropout),
-            nn.Linear(self.num_channels[-1] // 2, out_features)
-        )
-    
-    def forward(self, x):
-        """순전파"""
+        return nn.Sequential(*layers)
+
+    def _forward_single_feature(self, x, feature_idx):
+        """CI mode: 단일 feature 처리"""
         batch_size = x.size(0)
         
-        if self.channel_independence:
-            # Channel independence mode: reshape to (batch_size * num_features, seq_len, 1)
-            x = x.permute(0, 2, 1).contiguous()  # (batch_size, num_features, seq_len)
-            x = x.reshape(-1, x.size(-1), 1)     # (batch_size * num_features, seq_len, 1)
-            # TCN은 (batch, channel, seq_len) 형태의 입력을 기대하므로 변환
-            x = x.transpose(1, 2)  # (batch_size * num_features, 1, seq_len)
-        else:
-            # Channel dependence mode
-            x = x.transpose(1, 2)  # (batch_size, num_features, seq_len)
+        # [Batch, seq_len, 1] -> [Batch, 1, seq_len]
+        x = x.permute(0, 2, 1)
         
-        # TCN 적용
-        x = self.tcn(x)
+        # TCN 통과
+        x = self.feature_tcns[feature_idx](x)
         
-        # 마지막 시점의 특성만 사용
+        # 마지막 시점의 특성 추출
         x = x[:, :, -1]
         
         # Autoregressive 예측
@@ -105,25 +115,46 @@ class TCNModel(BaseTimeSeriesModel):
         current_input = x.unsqueeze(-1)
         
         for _ in range(self.pred_len):
-            # 현재 상태로 다음 값 예측
+            # 현재 상태로 다음 시점 예측
+            output = self.feature_fcs[feature_idx](current_input.squeeze(-1))
+            predictions.append(output.unsqueeze(1))  # (batch_size, 1, 1)
+            
+            # 다음 예측을 위한 입력 준비
+            next_input = output.unsqueeze(-2)  # (batch_size, 1, 1)
+            current_input = self.feature_tcns[feature_idx](next_input)[:, :, -1:]
+        
+        # 모든 예측을 결합
+        predictions = torch.cat(predictions, dim=1)  # (batch_size, pred_len, 1)
+        return predictions
+
+    def _forward_all_features(self, x):
+        """CD mode: 전체 feature 처리"""
+        batch_size = x.size(0)
+        
+        # [Batch, seq_len, num_features] -> [Batch, num_features, seq_len]
+        x = x.transpose(1, 2)
+        
+        # TCN 통과
+        x = self.tcn(x)
+        
+        # 마지막 시점의 특성 추출
+        x = x[:, :, -1]
+        
+        # Autoregressive 예측
+        predictions = []
+        current_input = x.unsqueeze(-1)
+        
+        for _ in range(self.pred_len):
+            # 현재 상태로 다음 시점 예측
             output = self.fc(current_input.squeeze(-1))
             predictions.append(output.unsqueeze(1))
             
             # 다음 예측을 위한 입력 준비
-            if self.channel_independence:
-                next_input = output.unsqueeze(-1)  # (batch_size * num_features, 1, 1)
-            else:
-                next_input = torch.zeros(batch_size, self.num_features, 1).to(self.device)
-                next_input[:, :self.base_features] = output.unsqueeze(-1)
+            next_input = torch.zeros(batch_size, self.num_features, 1).to(self.device)
+            next_input[:, :self.base_features] = output.unsqueeze(-1)
             
             current_input = self.tcn(next_input)[:, :, -1:]
         
         # 모든 예측을 결합
-        predictions = torch.cat(predictions, dim=1)  # (batch_size * num_features, pred_len, 1) or (batch_size, pred_len, output_size)
-        
-        if self.channel_independence:
-            # Reshape back to (batch_size, pred_len, num_features)
-            predictions = predictions.view(batch_size, self.base_features, self.pred_len, -1)
-            predictions = predictions.squeeze(-1).permute(0, 2, 1)
-        
+        predictions = torch.cat(predictions, dim=1)  # (batch_size, pred_len, num_features)
         return predictions
