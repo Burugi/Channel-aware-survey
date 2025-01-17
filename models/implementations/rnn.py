@@ -108,27 +108,3 @@ class RNNModel(BaseTimeSeriesModel):
         # 모든 예측을 결합
         predictions = torch.cat(predictions, dim=1)  # (batch_size, pred_len, num_features)
         return predictions
-    
-    def training_step(self, batch):
-        """단일 학습 스텝"""
-        x, y = batch
-        x = x.to(self.device).float()
-        y = y.to(self.device).float()
-        
-        # 순전파
-        y_pred = self(x)
-        
-        if self.channel_independence:
-            # Channel independence mode에서는 각 feature별 loss를 평균
-            loss = 0
-            feature_losses = {}
-            for i in range(self.base_features):
-                feature_loss = self.loss_fn(y_pred[..., i], y[..., i])
-                loss += feature_loss
-                feature_losses[f'feature_{i}'] = feature_loss.item()
-            # loss = loss / self.base_features
-            return {'loss': loss.item(), 'feature_losses': feature_losses}
-        else:
-            # Channel dependence mode에서는 전체 feature에 대한 단일 loss
-            loss = self.loss_fn(y_pred, y)
-            return {'loss': loss.item()}
