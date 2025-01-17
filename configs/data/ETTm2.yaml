@@ -1,0 +1,7 @@
+# configs/data/ETTm2.yaml
+# ETTm2 dataset은 15분 단위의 시계열 데이터셋
+
+data_path: "dataset/"
+file_name: "ETTm2.csv"
+freq: "15min"
+base_features: ["HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL", "OT"]  # 기본 feature 이름들

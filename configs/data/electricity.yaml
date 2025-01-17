@@ -1,0 +1,6 @@
+# configs/data/electricity.yaml
+
+data_path: "dataset/samples"
+file_name: "electricity.csv"
+freq: "1h"
+base_features: ["0", "3213", "2"]  # 기본 feature 이름들 -> 862개의 모든 feature를 사용하지 않아도 된다.

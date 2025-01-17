@@ -1,0 +1,7 @@
+# configs/data/exchange_rate.yaml
+# Exchange Rate dataset은 환율 변동 데이터를 포함한 시계열 데이터셋
+
+data_path: "dataset/"
+file_name: "exchange_rate.csv"
+freq: "1d"
+base_features: ["USD/EUR", "USD/GBP", "USD/JPY", "USD/CNY", "USD/KRW", "USD/AUD", "USD/CAD", "USD/CHF"]  # 기본 feature 이름들

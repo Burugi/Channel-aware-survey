@@ -1,0 +1,7 @@
+# configs/data/traffic.yaml
+# Traffic dataset은 교통량 데이터를 포함한 시계열 데이터셋
+
+data_path: "dataset/samples"
+file_name: "traffic.csv"
+freq: "1h"
+base_features: ["0", "3213", "2"]  # 기본 feature 이름들 -> 862개의 모든 feature를 사용하지 않아도 된다.

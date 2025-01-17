@@ -1,0 +1,7 @@
+# configs/data/national_illness.yaml
+# National Illness dataset은 질병 발생률 데이터를 포함한 시계열 데이터셋
+
+data_path: "dataset/"
+file_name: "national_illness.csv"
+freq: "1w"
+base_features: ["region", "percent_ILI", "num_patients", "hospital_visits", "temperature", "humidity"]  # 기본 feature 이름들

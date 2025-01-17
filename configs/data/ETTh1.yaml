@@ -1,0 +1,7 @@
+# configs/data/ETTh1.yaml
+# ETTh1 dataset은 1시간 단위의 시계열 데이터셋
+
+data_path: "dataset/"
+file_name: "ETTh1.csv"
+freq: "1h"
+base_features: ["HUFL", "HULL", "MUFL", "MULL", "LUFL", "LULL", "OT"]  # 기본 feature 이름들

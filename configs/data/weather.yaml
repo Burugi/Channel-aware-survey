@@ -1,0 +1,7 @@
+# configs/data/weather.yaml
+# Weather dataset은 기상 데이터를 포함한 시계열 데이터셋
+
+data_path: "dataset/"
+file_name: "weather.csv"
+freq: "1h"
+base_features: ["temperature", "humidity", "wind_speed", "pressure", "precipitation", "cloud_cover", "solar_radiation"]  # 기본 feature 이름들
