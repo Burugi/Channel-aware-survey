@@ -22,25 +22,11 @@ class SCINetModel(BaseTimeSeriesModel):
         self.positional_encoding = self.config.get('positional_encoding', True)
         self.RIN = self.config.get('RIN', False)
         
-        # feature 차원 설정 수정
         if self.channel_independence:
-            self.in_planes = 1
-            self.groups = 1
-            self.out_planes = 1
-        else:
-            self.in_planes = self.base_features  # num_features 대신 base_features 사용
-            config_groups = self.config.get('groups', 1)
-            if config_groups > self.in_planes:
-                self.groups = self.in_planes
-            else:
-                self.groups = config_groups if self.in_planes % config_groups == 0 else 1
-            self.out_planes = self.base_features
-        
-        if self.channel_independence:
-            # Feature별 독립적인 모델 구성
+            # CI mode: 각 feature별 독립적 처리
             self.feature_encoders = nn.ModuleList([
                 EncoderTree(
-                    in_planes=self.in_planes,
+                    in_planes=1,  # 단일 feature
                     num_levels=self.num_levels,
                     kernel_size=self.kernel,
                     dropout=self.dropout,
@@ -50,12 +36,17 @@ class SCINetModel(BaseTimeSeriesModel):
                 ) for _ in range(self.base_features)
             ])
             
-            self.feature_projections = nn.ModuleList([
-                nn.Linear(self.input_len, self.pred_len)
-                for _ in range(self.base_features)
+            # Feature별 projection layer
+            self.feature_projectors = nn.ModuleList([
+                nn.Sequential(
+                    nn.Linear(self.input_len, self.input_len // 2),
+                    nn.ReLU(),
+                    nn.Dropout(self.dropout),
+                    nn.Linear(self.input_len // 2, self.pred_len)
+                ) for _ in range(self.base_features)
             ])
             
-            # RIN parameters per feature
+            # Feature별 RIN parameters
             if self.RIN:
                 self.feature_affine_weights = nn.ParameterList([
                     nn.Parameter(torch.ones(1, 1, 1))
@@ -66,7 +57,16 @@ class SCINetModel(BaseTimeSeriesModel):
                     for _ in range(self.base_features)
                 ])
         else:
-            # Channel dependence mode
+            # CD mode: 모든 feature 통합 처리
+            # groups 설정 수정
+            self.in_planes = self.num_features
+            config_groups = self.config.get('groups', 1)
+            self.groups = 1  # default to 1 for safety
+            if config_groups > 1:
+                # Ensure groups divides in_planes evenly
+                if self.in_planes % config_groups == 0:
+                    self.groups = config_groups
+            
             self.encoder = EncoderTree(
                 in_planes=self.in_planes,
                 num_levels=self.num_levels,
@@ -77,138 +77,122 @@ class SCINetModel(BaseTimeSeriesModel):
                 INN=True
             )
             
-            self.projection = nn.Linear(self.input_len, self.pred_len)
+            # 통합 projection layer (feature 수 명시적 처리)
+            self.projector = nn.Sequential(
+                nn.Linear(self.input_len, self.input_len // 2),
+                nn.ReLU(),
+                nn.Dropout(self.dropout),
+                nn.Linear(self.input_len // 2, self.pred_len)
+            )
             
+            # Feature dimension projection
+            self.feature_proj = nn.Linear(self.num_features, self.base_features)
+            
+            # CD mode RIN parameters
             if self.RIN:
-                self.affine_weight = nn.Parameter(torch.ones(1, 1, self.in_planes))
-                self.affine_bias = nn.Parameter(torch.zeros(1, 1, self.in_planes))
-                
-        # Positional encoding setup
-        if self.positional_encoding:
-            if self.channel_independence:
-                self.feature_pe_hidden_sizes = [1 + (1 % 2) for _ in range(self.base_features)]
-                self.feature_inv_timescales = nn.ParameterList([
-                    self._create_inv_timescales(1) for _ in range(self.base_features)
-                ])
-            else:
-                self.pe_hidden_size = self.in_planes + (self.in_planes % 2)
-                self.inv_timescales = self._create_inv_timescales(self.in_planes)
+                self.affine_weight = nn.Parameter(torch.ones(1, 1, self.base_features))
+                self.affine_bias = nn.Parameter(torch.zeros(1, 1, self.base_features))
 
-    def _create_inv_timescales(self, dim):
-        """Create inverse timescales for positional encoding"""
-        num_timescales = (dim + (dim % 2)) // 2
-        max_timescale = 10000.0
-        min_timescale = 1.0
-        
-        log_timescale_increment = math.log(max_timescale / min_timescale) / max(num_timescales - 1, 1)
-        inv_timescales = min_timescale * torch.exp(
-            torch.arange(num_timescales, dtype=torch.float32) * -log_timescale_increment
-        )
-        return nn.Parameter(inv_timescales, requires_grad=False)
+    def _apply_RIN(self, x, feature_idx=None):
+        """Reversible Instance Normalization 적용"""
+        # 평균과 표준편차 계산
+        means = x.mean(1, keepdim=True).detach()
+        x = x - means
+        stdev = torch.sqrt(torch.var(x, dim=1, keepdim=True, unbiased=False) + 1e-5)
+        x = x / stdev
 
-    def _get_position_encoding(self, x, feature_idx=None):
-        """위치 인코딩 생성"""
-        if not self.positional_encoding:
-            return 0
-            
-        max_length = x.size(1)
-        position = torch.arange(max_length, dtype=torch.float32, device=x.device)
-        
+        # Affine 변환 적용
         if self.channel_independence:
-            inv_timescales = self.feature_inv_timescales[feature_idx]
-            pe_hidden_size = self.feature_pe_hidden_sizes[feature_idx]
+            weight = self.feature_affine_weights[feature_idx]
+            bias = self.feature_affine_biases[feature_idx]
         else:
-            inv_timescales = self.inv_timescales
-            pe_hidden_size = self.pe_hidden_size
+            weight = self.affine_weight
+            bias = self.affine_bias
             
-        scaled_time = position.unsqueeze(1) * inv_timescales.unsqueeze(0)
-        signal = torch.cat([torch.sin(scaled_time), torch.cos(scaled_time)], dim=1)
-        signal = F.pad(signal, (0, 0, 0, pe_hidden_size % 2))
-        signal = signal.view(1, max_length, pe_hidden_size)
+        x = x * weight + bias
         
-        return signal
+        return x, means, stdev
+
+    def _reverse_RIN(self, x, means, stdev, feature_idx=None):
+        """RIN 역변환 적용"""
+        if self.channel_independence:
+            weight = self.feature_affine_weights[feature_idx]
+            bias = self.feature_affine_biases[feature_idx]
+        else:
+            weight = self.affine_weight
+            bias = self.affine_bias
+            
+        x = x - bias
+        x = x / (weight + 1e-10)
+        x = x * stdev
+        x = x + means
+        
+        return x
 
     def _forward_single_feature(self, x, feature_idx):
         """CI mode: 단일 feature 처리"""
+        batch_size = x.shape[0]
+        
         # RIN 적용
         if self.RIN:
-            means = x.mean(1, keepdim=True).detach()
-            x = x - means
-            stdev = torch.sqrt(torch.var(x, dim=1, keepdim=True, unbiased=False) + 1e-5)
-            x = x / stdev
-            x = x * self.feature_affine_weights[feature_idx] + self.feature_affine_biases[feature_idx]
-
-        # Positional encoding
-        if self.positional_encoding:
-            pe = self._get_position_encoding(x, feature_idx)
-            if pe.shape[2] > x.shape[2]:
-                x = x + pe[:, :, :-1]
-            else:
-                x = x + pe
-
-        # Encoder tree
-        x = self.feature_encoders[feature_idx](x)
+            x, means, stdev = self._apply_RIN(x, feature_idx)
         
-        # Projection
-        x = x.permute(0, 2, 1)
-        x = self.feature_projections[feature_idx](x)
-        x = x.permute(0, 2, 1)
-
-        # Reverse RIN
+        # Encoder tree 통과
+        encoded = self.feature_encoders[feature_idx](x)
+        
+        # Projection to prediction length
+        encoded = encoded.permute(0, 2, 1)  # [batch, 1, seq_len]
+        predictions = self.feature_projectors[feature_idx](encoded)
+        predictions = predictions.permute(0, 2, 1)  # [batch, pred_len, 1]
+        
+        # RIN 역변환
         if self.RIN:
-            x = x - self.feature_affine_biases[feature_idx]
-            x = x / (self.feature_affine_weights[feature_idx] + 1e-10)
-            x = x * stdev
-            x = x + means
-
-        return x
+            predictions = self._reverse_RIN(predictions, means, stdev, feature_idx)
+        
+        return predictions
 
     def _forward_all_features(self, x):
-        """CD mode: 전체 feature 처리"""
-        # RIN 적용
-        if self.RIN:
-            means = x.mean(1, keepdim=True).detach()
-            x = x - means
-            stdev = torch.sqrt(torch.var(x, dim=1, keepdim=True, unbiased=False) + 1e-5)
-            x = x / stdev
-            x = x * self.affine_weight + self.affine_bias
-
-        # Positional encoding
-        if self.positional_encoding:
-            pe = self._get_position_encoding(x)
-            if pe.shape[2] > x.shape[2]:
-                x = x + pe[:, :, :-1]
-            else:
-                x = x + pe
-
-        # Encoder tree
-        x = self.encoder(x)
+        """CD mode: 전체 feature 통합 처리"""
+        batch_size = x.shape[0]
         
-        # Projection
-        x = x.permute(0, 2, 1)
-        x = self.projection(x)
-        x = x.permute(0, 2, 1)
-
-        # Reverse RIN
+        # RIN 적용 (원본 feature 수에 맞춰)
         if self.RIN:
-            x = x - self.affine_bias
-            x = x / (self.affine_weight + 1e-10)
-            x = x * stdev
-            x = x + means
-
-        return x
+            x, means, stdev = self._apply_RIN(x)
+        
+        # Encoder tree 통과
+        encoded = self.encoder(x)
+        
+        # Time dimension projection
+        encoded = encoded.permute(0, 2, 1)  # [batch, feat, seq_len]
+        predictions = self.projector(encoded)  # [batch, feat, pred_len]
+        
+        # Feature dimension projection
+        predictions = predictions.permute(0, 2, 1)  # [batch, pred_len, feat]
+        predictions = self.feature_proj(predictions)  # [batch, pred_len, base_features]
+        
+        # RIN 역변환 (base_features 수에 맞춰)
+        if self.RIN:
+            # means와 stdev를 base_features 크기에 맞게 조정
+            means = self.feature_proj(means.squeeze(1)).unsqueeze(1)
+            stdev = self.feature_proj(stdev.squeeze(1)).unsqueeze(1)
+            predictions = self._reverse_RIN(predictions, means, stdev)
+        
+        return predictions
 
     def forward(self, x):
         """순전파"""
         if self.channel_independence:
+            # Feature별 독립 처리
             outputs = []
             for i in range(self.base_features):
-                feature_input = x[..., i:i+1]
-                out = self._forward_single_feature(feature_input, i)
-                outputs.append(out)
+                feature_input = x[..., i:i+1]  # [batch, seq_len, 1]
+                feature_output = self._forward_single_feature(feature_input, i)
+                outputs.append(feature_output)
             
-            predictions = torch.cat(outputs, dim=-1)  # (batch_size, pred_len, base_features)
+            # 모든 feature의 예측을 결합
+            predictions = torch.cat(outputs, dim=-1)  # [batch, pred_len, num_features]
         else:
-            predictions = self._forward_all_features(x)  # (batch_size, pred_len, base_features)
+            # 전체 feature 통합 처리
+            predictions = self._forward_all_features(x)  # [batch, pred_len, num_features]
         
         return predictions

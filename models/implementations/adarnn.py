@@ -122,102 +122,141 @@ class AdaRNNModel(BaseTimeSeriesModel):
                     gate.bias.data.fill_(0.0)
 
     def _process_gate_weight(self, out, index, feature_idx=None):
-        """게이트 가중치 처리"""
-        batch_size = out.shape[0]
-                
-        x_s = out[0: batch_size//2]
-        x_t = out[batch_size//2: batch_size]
-        x_all = torch.cat((x_s, x_t), 2)
-        x_all = x_all.view(x_all.shape[0], -1)
+        """게이트 가중치 처리
+        Args:
+            out: RNN 출력 (batch_size, seq_len, hidden_size)
+            index: RNN 레이어 인덱스
+            feature_idx: feature 인덱스 (CI mode에서만 사용)
+        """
+        batch_size = out.shape[0] // 2  # source와 target 데이터가 연결되어 있음
+        seq_len = out.shape[1]
+        hidden_size = out.shape[2]
+        
+        # Source와 target 데이터 분리
+        x_s = out[:batch_size]  # (batch_size/2, seq_len, hidden_size)
+        x_t = out[batch_size:]  # (batch_size/2, seq_len, hidden_size)
+        
+        # 결합 및 reshape
+        x_all = torch.cat([x_s, x_t], dim=2)  # (batch_size/2, seq_len, hidden_size*2)
+        x_all = x_all.reshape(batch_size, -1)  # (batch_size/2, seq_len*hidden_size*2)
 
         if self.channel_independence:
             weight = torch.sigmoid(
                 self.feature_bn_lst[feature_idx][index](
-                    self.feature_gates[feature_idx][index](x_all.float())
+                    self.feature_gates[feature_idx][index](x_all)
                 )
             )
         else:
             weight = torch.sigmoid(
                 self.bn_lst[index](
-                    self.gate[index](x_all.float())
+                    self.gate[index](x_all)
                 )
             )
 
-        weight = torch.mean(weight, dim=0)
-        return self.softmax(weight).squeeze()
+        # 가중치 평균 및 정규화
+        weight = weight.mean(dim=0)  # (seq_len,)
+        return self.softmax(weight)  # (seq_len,)
 
     def _forward_single_feature(self, x, feature_idx):
         """CI mode: 단일 feature 처리"""
-        x_input = x
-        out = None
-        out_lis = []
-        out_weight_list = [] if self.model_type == 'AdaRNN' else None
-
+        batch_size = x.size(0)
+        
         # RNN layers 통과
+        current_input = x
+        hidden_states = []
+        gate_weights = [] if self.model_type == 'AdaRNN' else None
+
         for i in range(len(self.hidden_sizes)):
-            out, _ = self.feature_rnns[feature_idx][i](x_input.float())
-            x_input = out
-            out_lis.append(out)
+            out, _ = self.feature_rnns[feature_idx][i](current_input)
+            hidden_states.append(out)
+            current_input = out
             
             if self.model_type == 'AdaRNN':
-                out_gate = self._process_gate_weight(x_input, i, feature_idx)
-                out_weight_list.append(out_gate)
+                gate_weight = self._process_gate_weight(out, i, feature_idx)
+                gate_weights.append(gate_weight)
 
-        # Bottleneck과 출력 레이어
-        if self.use_bottleneck:
-            fea_bottleneck = self.feature_bottlenecks[feature_idx](out[:, -1, :])
-            predictions = self.feature_fcs[feature_idx](fea_bottleneck)
-        else:
-            predictions = self.feature_fcs[feature_idx](out[:, -1, :])
+        # 마지막 hidden state 사용
+        final_hidden = hidden_states[-1][:, -1]  # (batch_size, hidden_size)
+        
+        # 예측 생성
+        predictions = []
+        current_hidden = final_hidden
 
-        predictions = predictions.unsqueeze(-1)  # Add feature dimension
-        return predictions, out_lis, out_weight_list
+        for _ in range(self.pred_len):
+            # 현재 상태로 다음 시점 예측
+            if self.use_bottleneck:
+                fea = self.feature_bottlenecks[feature_idx](current_hidden)
+                pred = self.feature_fcs[feature_idx](fea)
+            else:
+                pred = self.feature_fcs[feature_idx](current_hidden)
+            
+            predictions.append(pred.unsqueeze(1))  # (batch_size, 1, 1)
+            
+            # 다음 예측을 위한 입력 준비
+            pred_input = pred.unsqueeze(1)  # (batch_size, 1, 1)
+            out, _ = self.feature_rnns[feature_idx][0](pred_input)
+            current_hidden = out[:, -1]  # 마지막 hidden state
+
+        # 모든 예측을 결합
+        predictions = torch.cat(predictions, dim=1)  # (batch_size, pred_len, 1)
+        return predictions
 
     def _forward_all_features(self, x):
         """CD mode: 전체 feature 처리"""
-        x_input = x
-        out = None
-        out_lis = []
-        out_weight_list = [] if self.model_type == 'AdaRNN' else None
-
+        batch_size = x.size(0)
+        
         # RNN layers 통과
+        current_input = x
+        hidden_states = []
+        gate_weights = [] if self.model_type == 'AdaRNN' else None
+
         for i, rnn in enumerate(self.features):
-            out, _ = rnn(x_input.float())
-            x_input = out
-            out_lis.append(out)
+            out, _ = rnn(current_input)
+            hidden_states.append(out)
+            current_input = out
             
             if self.model_type == 'AdaRNN':
-                out_gate = self._process_gate_weight(x_input, i)
-                out_weight_list.append(out_gate)
+                gate_weight = self._process_gate_weight(out, i)
+                gate_weights.append(gate_weight)
 
-        # Bottleneck과 출력 레이어
-        if self.use_bottleneck:
-            fea_bottleneck = self.bottleneck(out[:, -1, :])
-            predictions = self.fc(fea_bottleneck)
-        else:
-            predictions = self.fc_out(out[:, -1, :])
+        # 마지막 hidden state 사용
+        final_hidden = hidden_states[-1][:, -1]  # (batch_size, hidden_size)
+        
+        # 예측 생성
+        predictions = []
+        current_hidden = final_hidden
 
-        return predictions, out_lis, out_weight_list
+        for _ in range(self.pred_len):
+            # 현재 상태로 다음 시점 예측
+            if self.use_bottleneck:
+                fea = self.bottleneck(current_hidden)
+                pred = self.fc(fea)
+            else:
+                pred = self.fc_out(current_hidden)
+            
+            predictions.append(pred.unsqueeze(1))  # (batch_size, 1, base_features)
+            
+            # 다음 예측을 위한 입력 준비
+            next_input = torch.zeros(batch_size, 1, self.num_features).to(self.device)
+            next_input[:, :, :self.base_features] = pred.unsqueeze(1)
+            out, _ = self.features[0](next_input)
+            current_hidden = out[:, -1]  # 마지막 hidden state
+
+        # 모든 예측을 결합
+        predictions = torch.cat(predictions, dim=1)  # (batch_size, pred_len, base_features)
+        return predictions
 
     def forward(self, x):
         batch_size = x.size(0)
 
         if self.channel_independence:
             outputs = []
-            all_out_lis = []
-            all_out_weight_list = []
-
             for i in range(self.base_features):
                 feature_input = x[..., i:i+1]
-                out, out_lis, out_weight_list = self._forward_single_feature(feature_input, i)
+                out = self._forward_single_feature(feature_input, i)
                 outputs.append(out)
-                all_out_lis.append(out_lis)
-                if out_weight_list is not None:
-                    all_out_weight_list.append(out_weight_list)
-
-            predictions = torch.cat(outputs, dim=-1)
-            return predictions
-
+            predictions = torch.cat(outputs, dim=-1)  # (batch_size, pred_len, base_features)
         else:
-            predictions, out_lis, out_weight_list = self._forward_all_features(x)
-            return predictions.unsqueeze(1)  # Add sequence dimension
+            predictions = self._forward_all_features(x)  # (batch_size, pred_len, base_features)
+
+        return predictions

@@ -146,87 +146,68 @@ class AutoformerModel(BaseTimeSeriesModel):
 
     def _forward_single_feature(self, x, feature_idx):
         """CI mode: 단일 feature 처리"""
-        # 시간 특성 생성
-        x_mark = self._generate_time_features(x)
+        batch_size = x.shape[0]
         
-        # Decomposition 초기화
+        # 시간 특성 생성
+        enc_time_mark = self._generate_time_features(x)
+        
+        # Decomposition
         seasonal_init, trend_init = self.feature_decomps[feature_idx](x)
         
-        # 평균값으로 초기화된 trend
-        mean = torch.mean(x, dim=1).unsqueeze(1)
-        trend_init = torch.cat([trend_init[:, -self.pred_len:, :], 
-                            mean.repeat(1, self.pred_len, 1)], dim=1)
-        
         # Encoder
-        enc_out = self.feature_enc_embeddings[feature_idx](x, x_mark)
+        enc_out = self.feature_enc_embeddings[feature_idx](x, enc_time_mark)
         enc_out, _ = self.feature_encoders[feature_idx](enc_out)
         
-        # Decoder 입력 준비
-        dec_zeros = torch.zeros_like(seasonal_init[:, -self.pred_len:, :])
-        seasonal_init = torch.cat([seasonal_init[:, -self.pred_len:, :], dec_zeros], dim=1)
+        # Decoder input initialization
+        dec_input = torch.zeros((batch_size, self.pred_len, 1), device=x.device)
+        dec_time_mark = self._generate_time_features(dec_input)
         
-        x_mark_dec = self._generate_time_features(
-            torch.zeros((x.shape[0], seasonal_init.shape[1], x.shape[2]), device=x.device)
-        )
+        # Trend initialization
+        trend_init = torch.mean(x, dim=1, keepdim=True).repeat(1, self.pred_len, 1)
         
         # Decoder
-        dec_out = self.feature_dec_embeddings[feature_idx](seasonal_init, x_mark_dec)
+        dec_out = self.feature_dec_embeddings[feature_idx](dec_input, dec_time_mark)
         seasonal_part, trend_part = self.feature_decoders[feature_idx](dec_out, enc_out, trend=trend_init)
         
-        # 최종 출력 (seasonal + trend)
-        return trend_part + seasonal_part
+        return seasonal_part + trend_part
 
     def _forward_all_features(self, x):
         """CD mode: 전체 feature 처리"""
-        x_mark = self._generate_time_features(x)
+        batch_size = x.shape[0]
         
-        # Decomposition 초기화
+        # 시간 특성 생성
+        enc_time_mark = self._generate_time_features(x)
+        
+        # Decomposition
         seasonal_init, trend_init = self.decomp(x)
         
-        # 평균값으로 초기화된 trend
-        mean = torch.mean(x, dim=1).unsqueeze(1)
-        trend_init = torch.cat([trend_init[:, -self.pred_len:, :], 
-                            mean.repeat(1, self.pred_len, 1)], dim=1)
-        
         # Encoder
-        enc_out = self.enc_embedding(x, x_mark)
+        enc_out = self.enc_embedding(x, enc_time_mark)
         enc_out, _ = self.encoder(enc_out)
         
-        # Decoder 입력 준비
-        dec_zeros = torch.zeros_like(seasonal_init[:, -self.pred_len:, :])
-        seasonal_init = torch.cat([seasonal_init[:, -self.pred_len:, :], dec_zeros], dim=1)
+        # Decoder input initialization
+        dec_input = torch.zeros((batch_size, self.pred_len, self.base_features), device=x.device)
+        dec_time_mark = self._generate_time_features(dec_input)
         
-        x_mark_dec = self._generate_time_features(
-            torch.zeros((x.shape[0], seasonal_init.shape[1], x.shape[2]), device=x.device)
-        )
+        # Trend initialization
+        trend_init = torch.mean(x, dim=1, keepdim=True).repeat(1, self.pred_len, 1)
         
         # Decoder
-        dec_out = self.dec_embedding(seasonal_init, x_mark_dec)
+        dec_out = self.dec_embedding(dec_input, dec_time_mark)
         seasonal_part, trend_part = self.decoder(dec_out, enc_out, trend=trend_init)
         
-        # 최종 출력 (seasonal + trend)
-        return trend_part + seasonal_part
+        return seasonal_part + trend_part
 
     def forward(self, x):
         """순전파"""
-        original_batch_size = x.size(0)
-        
         if self.channel_independence:
-            # Reshape for channel independence
-            x = x.permute(0, 2, 1).contiguous()  # (batch_size, num_features, seq_len)
-            x = x.reshape(-1, x.size(-1), 1)     # (batch_size * num_features, seq_len, 1)
-            
-            # Feature별 독립적 처리
             outputs = []
             for i in range(self.base_features):
-                feature_input = x[i::self.base_features]  # 각 feature에 해당하는 배치 선택
-                out = self._forward_single_feature(feature_input, i)
-                outputs.append(out)
-            
-            # 결과 결합
-            outputs = torch.stack(outputs, dim=1)  # (batch_size, num_features, pred_len, 1)
-            outputs = outputs.squeeze(-1).transpose(1, 2)  # (batch_size, pred_len, num_features)
+                feature_input = x[..., i:i+1]
+                feature_output = self._forward_single_feature(feature_input, i)
+                outputs.append(feature_output)
+            predictions = torch.cat(outputs, dim=-1)
         else:
-            outputs = self._forward_all_features(x)
-            
-        return outputs[:, -self.pred_len:, :]
+            predictions = self._forward_all_features(x)
+        
+        return predictions
